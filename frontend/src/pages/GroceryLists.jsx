@@ -35,19 +35,19 @@ export default function GroceryLists() {
 
   const { data: mealPlans = [] } = useQuery({
     queryKey: ['mealPlans'],
-    queryFn: () => base44.entities.MealPlan.list('-created_date'),
+    queryFn: () => apiClient.get('/api/meal-plan', { sort: 'created_date', order: 'desc' }),
   });
 
   const { data: standaloneLists = [] } = useQuery({
     queryKey: ['standaloneLists'],
-    queryFn: () => base44.entities.GroceryList.list('-created_date'),
+    queryFn: () => apiClient.get('/api/grocery-list', { sort: 'created_date', order: 'desc' }),
   });
 
   const selectedPlan = mealPlans.find(p => p.id === selectedPlanId);
   const selectedStandaloneList = standaloneLists.find(l => l.id === selectedStandaloneId);
 
   const updatePlanMutation = useMutation({
-    mutationFn: (data) => base44.entities.MealPlan.update(selectedPlanId, data),
+    mutationFn: (data) => apiClient.patch(`/api/meal-plan/${selectedPlanId}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
       toast.success('Grocery list updated');
@@ -55,7 +55,7 @@ export default function GroceryLists() {
   });
 
   const createStandaloneListMutation = useMutation({
-    mutationFn: (data) => base44.entities.GroceryList.create(data),
+    mutationFn: (data) => apiClient.post('/api/grocery-list', data),
     onSuccess: (newList) => {
       queryClient.invalidateQueries({ queryKey: ['standaloneLists'] });
       setSelectedStandaloneId(newList.id);
@@ -67,7 +67,7 @@ export default function GroceryLists() {
   });
 
   const updateStandaloneListMutation = useMutation({
-    mutationFn: (data) => base44.entities.GroceryList.update(selectedStandaloneId, data),
+    mutationFn: (data) => apiClient.patch(`/api/grocery-list/${selectedStandaloneId}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['standaloneLists'] });
       toast.success('List updated');
@@ -75,7 +75,7 @@ export default function GroceryLists() {
   });
 
   const deleteStandaloneListMutation = useMutation({
-    mutationFn: (id) => base44.entities.GroceryList.delete(id),
+    mutationFn: (id) => apiClient.delete(`/api/grocery-list/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['standaloneLists'] });
       toast.success('List deleted');
@@ -219,7 +219,7 @@ export default function GroceryLists() {
   const fetchItemPrice = async (itemName, category) => {
     setIsFetchingPrice(true);
     try {
-      const priceData = await base44.integrations.Core.InvokeLLM({
+      const priceData = await apiClient.integrations.Core.InvokeLLM({
         prompt: `Get current average grocery price in USD for: ${itemName}. Return approximate cost per typical package/unit from major US grocery stores.`,
         add_context_from_internet: true,
         response_json_schema: {

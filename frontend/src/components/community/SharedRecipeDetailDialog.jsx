@@ -25,11 +25,11 @@ export default function SharedRecipeDetailDialog({ recipe, open, onOpenChange, c
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const addCommentMutation = useMutation({
-    mutationFn: (data) => base44.entities.RecipeComment.create(data),
+    mutationFn: (data) => apiClient.post('/api/recipe-comment', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['recipeComments'] });
       setNewComment('');
@@ -37,7 +37,7 @@ export default function SharedRecipeDetailDialog({ recipe, open, onOpenChange, c
       
       // Notify recipe author
       if (recipe.created_by && recipe.created_by !== user?.email) {
-        base44.entities.Notification.create({
+        apiClient.post('/api/notification', {
           recipient_email: recipe.created_by,
           type: 'recipe_comment',
           title: 'New Comment',
@@ -49,7 +49,7 @@ export default function SharedRecipeDetailDialog({ recipe, open, onOpenChange, c
   });
 
   const likeMutation = useMutation({
-    mutationFn: () => base44.entities.UserInteraction.create({
+    mutationFn: () => apiClient.post('/api/user-interaction', {
       target_id: localRecipe.id,
       target_type: 'shared_recipe',
       interaction_type: 'like',
@@ -60,7 +60,7 @@ export default function SharedRecipeDetailDialog({ recipe, open, onOpenChange, c
       
       // Notify recipe author
       if (localRecipe.created_by && localRecipe.created_by !== user?.email) {
-        base44.entities.Notification.create({
+        apiClient.post('/api/notification', {
           recipient_email: localRecipe.created_by,
           type: 'recipe_like',
           title: 'Recipe Liked',
@@ -76,7 +76,7 @@ export default function SharedRecipeDetailDialog({ recipe, open, onOpenChange, c
     try {
       const ingredientNames = meal.ingredients || localRecipe.ingredients || [];
       
-      const priceData = await base44.integrations.Core.InvokeLLM({
+      const priceData = await apiClient.integrations.Core.InvokeLLM({
         prompt: `For these ingredients: ${ingredientNames.join(', ')}. Provide current average grocery prices in USD per typical package/unit from major US grocery stores. Categorize them into: Proteins, Vegetables, Fruits, Grains, Dairy/Alternatives, Spices/Condiments, Other.`,
         add_context_from_internet: true,
         response_json_schema: {
@@ -107,7 +107,7 @@ export default function SharedRecipeDetailDialog({ recipe, open, onOpenChange, c
         );
         
         if (isFromFavorites) {
-          await base44.entities.FavoriteMeal.update(localRecipe.id, {
+          await apiClient.patch(`/api/favorite-meal/${localRecipe.id}`, {
             grocery_list: priceData.categories,
             estimated_cost: totalCost
           });
@@ -131,7 +131,7 @@ export default function SharedRecipeDetailDialog({ recipe, open, onOpenChange, c
 
   const saveToGroceryLists = async () => {
     try {
-      await base44.entities.GroceryList.create({
+      await apiClient.post('/api/grocery-list', {
         name: `${localRecipe.name} - Grocery List`,
         items: localRecipe.grocery_list || {},
         total_cost: localRecipe.estimated_cost || 0,

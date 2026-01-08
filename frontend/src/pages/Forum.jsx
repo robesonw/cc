@@ -25,30 +25,30 @@ export default function Forum() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: posts = [] } = useQuery({
     queryKey: ['forumPosts'],
-    queryFn: () => base44.entities.ForumPost.list('-created_date'),
+    queryFn: () => apiClient.get('/api/forum-post', { sort: 'created_date', order: 'desc' }),
   });
 
   const { data: comments = [] } = useQuery({
     queryKey: ['forumComments'],
-    queryFn: () => base44.entities.ForumComment.list('-created_date'),
+    queryFn: () => apiClient.get('/api/forum-comment', { sort: 'created_date', order: 'desc' }),
   });
 
   const { data: userInteractions = [] } = useQuery({
     queryKey: ['userInteractions'],
     queryFn: async () => {
       if (!user?.email) return [];
-      return base44.entities.UserInteraction.filter({ created_by: user.email });
+      return apiClient.get('/api/user-interaction', { created_by: user.email });
     },
     enabled: !!user?.email,
   });
 
   const createPostMutation = useMutation({
-    mutationFn: (data) => base44.entities.ForumPost.create(data),
+    mutationFn: (data) => apiClient.post('/api/forum-post', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['forumPosts'] });
       toast.success('Post created!');
@@ -58,7 +58,7 @@ export default function Forum() {
   });
 
   const addCommentMutation = useMutation({
-    mutationFn: (data) => base44.entities.ForumComment.create(data),
+    mutationFn: (data) => apiClient.post('/api/forum-comment', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['forumComments'] });
       toast.success('Comment added!');
@@ -73,10 +73,10 @@ export default function Forum() {
       );
 
       if (existing) {
-        await base44.entities.UserInteraction.delete(existing.id);
+        await apiClient.delete(`/api/user-interaction/${existing.id}`);
         return { action: 'unlike', targetId, targetType };
       } else {
-        await base44.entities.UserInteraction.create({
+        await apiClient.post('/api/user-interaction', {
           target_id: targetId,
           target_type: targetType,
           interaction_type: 'like'
@@ -91,14 +91,14 @@ export default function Forum() {
         const post = posts.find(p => p.id === targetId);
         if (post) {
           const newCount = action === 'like' ? (post.likes_count || 0) + 1 : Math.max(0, (post.likes_count || 0) - 1);
-          base44.entities.ForumPost.update(targetId, { likes_count: newCount });
+          apiClient.patch(`/api/forum-post/${targetId}`, { likes_count: newCount });
           queryClient.invalidateQueries({ queryKey: ['forumPosts'] });
         }
       } else if (targetType === 'forum_comment') {
         const comment = comments.find(c => c.id === targetId);
         if (comment) {
           const newCount = action === 'like' ? (comment.likes_count || 0) + 1 : Math.max(0, (comment.likes_count || 0) - 1);
-          base44.entities.ForumComment.update(targetId, { likes_count: newCount });
+          apiClient.patch(`/api/forum-comment/${targetId}`, { likes_count: newCount });
           queryClient.invalidateQueries({ queryKey: ['forumComments'] });
         }
       }
@@ -125,7 +125,7 @@ export default function Forum() {
         reactions[emoji] = [...(reactions[emoji] || []), userEmail];
       }
 
-      return base44.entities.ForumComment.update(commentId, { reactions });
+      return apiClient.patch(`/api/forum-comment/${commentId}`, { reactions });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['forumComments'] });
@@ -159,7 +159,7 @@ export default function Forum() {
     setSelectedPost(post);
     setViewPostOpen(true);
     // Increment view count
-    base44.entities.ForumPost.update(post.id, {
+    apiClient.patch(`/api/forum-post/${post.id}`, {
       views_count: (post.views_count || 0) + 1
     });
   };

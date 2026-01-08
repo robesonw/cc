@@ -16,14 +16,14 @@ export default function QuickStartChecklist() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: preferences } = useQuery({
     queryKey: ['userPreferences', user?.email],
     queryFn: async () => {
       if (!user?.email) return null;
-      const prefs = await base44.entities.UserPreferences.filter({ created_by: user.email });
+      const prefs = await apiClient.get('/api/user-preferences', { created_by: user.email });
       return prefs?.[0] || null;
     },
     enabled: !!user?.email,
@@ -33,7 +33,7 @@ export default function QuickStartChecklist() {
     queryKey: ['mealPlans', user?.email],
     queryFn: async () => {
       if (!user?.email) return [];
-      return base44.entities.MealPlan.filter({ created_by: user.email }, '-created_date');
+      return apiClient.get('/api/meal-plan', { created_by: user.email }, '-created_date');
     },
     enabled: !!user?.email,
   });
@@ -42,7 +42,7 @@ export default function QuickStartChecklist() {
     queryKey: ['favoriteMeals', user?.email],
     queryFn: async () => {
       if (!user?.email) return [];
-      return base44.entities.FavoriteMeal.filter({ created_by: user.email }, '-created_date');
+      return apiClient.get('/api/favorite-meal', { created_by: user.email }, '-created_date');
     },
     enabled: !!user?.email,
   });

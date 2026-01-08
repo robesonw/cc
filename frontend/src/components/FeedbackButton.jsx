@@ -20,7 +20,7 @@ export default function FeedbackButton() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
     retry: false,
   });
 
@@ -33,7 +33,7 @@ export default function FeedbackButton() {
 
     setSubmitting(true);
     try {
-      await base44.entities.Feedback.create({
+      await apiClient.post('/api/feedback', {
         user_name: user?.full_name || 'Anonymous',
         user_email: user?.email || 'unknown',
         page: location.pathname,

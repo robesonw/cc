@@ -41,7 +41,7 @@ export default function FavoriteMealDetailDialog({ meal, open, onOpenChange }) {
     try {
       const ingredientNames = localMeal.ingredients || [];
       
-      const priceData = await base44.integrations.Core.InvokeLLM({
+      const priceData = await apiClient.integrations.Core.InvokeLLM({
         prompt: `For these ingredients: ${ingredientNames.join(', ')}. Provide current average grocery prices in USD per typical package/unit from major US grocery stores. Categorize them into: Proteins, Vegetables, Fruits, Grains, Dairy/Alternatives, Spices/Condiments, Other.`,
         add_context_from_internet: true,
         response_json_schema: {
@@ -71,7 +71,7 @@ export default function FavoriteMealDetailDialog({ meal, open, onOpenChange }) {
           (sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0
         );
         
-        await base44.entities.FavoriteMeal.update(localMeal.id, {
+        await apiClient.patch(`/api/favorite-meal/${localMeal.id}`, {
           grocery_list: priceData.categories,
           estimated_cost: totalCost
         });
@@ -94,7 +94,7 @@ export default function FavoriteMealDetailDialog({ meal, open, onOpenChange }) {
 
   const saveToGroceryLists = async () => {
     try {
-      await base44.entities.GroceryList.create({
+      await apiClient.post('/api/grocery-list', {
         name: `${localMeal.name} - Grocery List`,
         items: localMeal.grocery_list || {},
         total_cost: localMeal.estimated_cost || 0,

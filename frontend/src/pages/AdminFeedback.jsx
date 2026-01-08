@@ -23,11 +23,11 @@ export default function AdminFeedback() {
 
   const { data: feedbacks = [], isLoading } = useQuery({
     queryKey: ['feedbacks'],
-    queryFn: () => base44.entities.Feedback.list('-created_date'),
+    queryFn: () => apiClient.get('/api/feedback', { sort: 'created_date', order: 'desc' }),
   });
 
   const updateStatusMutation = useMutation({
-    mutationFn: ({ id, status }) => base44.entities.Feedback.update(id, { status }),
+    mutationFn: ({ id, status }) => apiClient.patch(`/api/feedback/${id}`, { status }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['feedbacks'] });
       toast.success('Status updated');

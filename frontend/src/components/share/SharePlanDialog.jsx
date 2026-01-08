@@ -15,11 +15,11 @@ export default function SharePlanDialog({ plan, open, onOpenChange }) {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const sharePlanMutation = useMutation({
-    mutationFn: (data) => base44.entities.SharedMealPlan.create(data),
+    mutationFn: (data) => apiClient.post('/api/shared-meal-plan', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sharedMealPlans'] });
       toast.success('Meal plan shared with the community!');

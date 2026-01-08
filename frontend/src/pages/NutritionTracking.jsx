@@ -67,12 +67,12 @@ export default function NutritionTracking() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: goals = [] } = useQuery({
     queryKey: ['nutritionGoals', user?.email],
-    queryFn: () => base44.entities.NutritionGoal.filter({ created_by: user?.email }),
+    queryFn: () => apiClient.get('/api/nutrition-goal', { created_by: user?.email }),
     enabled: !!user?.email,
   });
 
@@ -81,22 +81,22 @@ export default function NutritionTracking() {
 
   const { data: logs = [] } = useQuery({
     queryKey: ['nutritionLogs', user?.email],
-    queryFn: () => base44.entities.NutritionLog.filter({ created_by: user?.email }),
+    queryFn: () => apiClient.get('/api/nutrition-log', { created_by: user?.email }),
     enabled: !!user?.email,
   });
 
   const { data: favoriteMeals = [] } = useQuery({
     queryKey: ['favoriteMeals'],
-    queryFn: () => base44.entities.FavoriteMeal.list(),
+    queryFn: () => apiClient.get('/api/favorite-meal'),
   });
 
   const { data: mealPlans = [] } = useQuery({
     queryKey: ['mealPlans'],
-    queryFn: () => base44.entities.MealPlan.list('-created_date', 5),
+    queryFn: () => apiClient.get('/api/meal-plan', { sort: 'created_date', 5', order: 'desc' }),
   });
 
   const createGoalMutation = useMutation({
-    mutationFn: (data) => base44.entities.NutritionGoal.create(data),
+    mutationFn: (data) => apiClient.post('/api/nutrition-goal', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['nutritionGoals'] });
       toast.success('Goal saved!');
@@ -106,7 +106,7 @@ export default function NutritionTracking() {
   });
 
   const updateGoalMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.NutritionGoal.update(id, data),
+    mutationFn: ({ id, data }) => apiClient.patch(`/api/nutrition-goal/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['nutritionGoals'] });
       toast.success('Goal updated!');
@@ -116,7 +116,7 @@ export default function NutritionTracking() {
   });
 
   const createLogMutation = useMutation({
-    mutationFn: (data) => base44.entities.NutritionLog.create(data),
+    mutationFn: (data) => apiClient.post('/api/nutrition-log', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['nutritionLogs'] });
       toast.success('Meal logged!');
@@ -146,7 +146,7 @@ export default function NutritionTracking() {
       // Deactivate other goals of same type
       const otherGoals = goals.filter(g => g.goal_type === goalForm.goal_type && g.is_active);
       otherGoals.forEach(g => {
-        base44.entities.NutritionGoal.update(g.id, { is_active: false });
+        apiClient.patch(`/api/nutrition-goal/${g.id}`, { is_active: false });
       });
       createGoalMutation.mutate({ ...goalForm, is_active: true });
     }
@@ -203,10 +203,10 @@ export default function NutritionTracking() {
     setIsAnalyzingPhoto(true);
     try {
       // Upload the photo
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      const { file_url } = await apiClient.integrations.Core.UploadFile({ file });
 
       // Analyze the food using AI
-      const result = await base44.integrations.Core.InvokeLLM({
+      const result = await apiClient.integrations.Core.InvokeLLM({
         prompt: `Analyze this food photo and identify the meal/food items. Provide nutritional estimates per serving including calories, protein, carbs, and fat. Be specific about what you see.`,
         file_urls: [file_url],
         response_json_schema: {
@@ -248,7 +248,7 @@ export default function NutritionTracking() {
 
     setIsGeneratingNutrition(true);
     try {
-      const result = await base44.integrations.Core.InvokeLLM({
+      const result = await apiClient.integrations.Core.InvokeLLM({
         prompt: `Given these ingredients: "${recipeIngredients}", calculate the total nutritional information. Provide a recipe name, total calories, protein (g), carbs (g), and fat (g) for the complete recipe.`,
         response_json_schema: {
           type: "object",

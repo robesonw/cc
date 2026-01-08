@@ -33,12 +33,12 @@ export default function SharedRecipes() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: allSharedRecipes = [], isLoading } = useQuery({
     queryKey: ['sharedRecipes'],
-    queryFn: () => base44.entities.SharedRecipe.list('-created_date'),
+    queryFn: () => apiClient.get('/api/shared-recipe', { sort: 'created_date', order: 'desc' }),
   });
 
   // Filter to show only approved recipes
@@ -46,12 +46,12 @@ export default function SharedRecipes() {
 
   const { data: recipeComments = [] } = useQuery({
     queryKey: ['recipeComments'],
-    queryFn: () => base44.entities.RecipeComment.list('-created_date'),
+    queryFn: () => apiClient.get('/api/recipe-comment', { sort: 'created_date', order: 'desc' }),
   });
 
   const { data: favoriteMeals = [] } = useQuery({
     queryKey: ['favoriteMeals'],
-    queryFn: () => base44.entities.FavoriteMeal.list('-created_date'),
+    queryFn: () => apiClient.get('/api/favorite-meal', { sort: 'created_date', order: 'desc' }),
   });
 
   // Separate user's recipes from community recipes
@@ -59,7 +59,7 @@ export default function SharedRecipes() {
   const sharedRecipes = allRecipes.filter(r => r.created_by !== user?.email);
 
   const interactionMutation = useMutation({
-    mutationFn: (data) => base44.entities.UserInteraction.create(data),
+    mutationFn: (data) => apiClient.post('/api/user-interaction', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sharedRecipes'] });
     },
@@ -73,7 +73,7 @@ export default function SharedRecipes() {
     });
     
     if (authorEmail && authorEmail !== user?.email) {
-      base44.entities.Notification.create({
+      apiClient.post('/api/notification', {
         recipient_email: authorEmail,
         type: 'recipe_like',
         title: 'Recipe Liked',
@@ -86,7 +86,7 @@ export default function SharedRecipes() {
   };
 
   const handleSave = (recipe) => {
-    base44.entities.FavoriteMeal.create({
+    apiClient.post('/api/favorite-meal', {
       name: recipe.name,
       meal_type: recipe.meal_type,
       calories: recipe.calories,

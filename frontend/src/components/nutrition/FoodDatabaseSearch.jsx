@@ -20,7 +20,7 @@ export default function FoodDatabaseSearch({ onSelectFood }) {
 
     setIsSearching(true);
     try {
-      const result = await base44.integrations.Core.InvokeLLM({
+      const result = await apiClient.integrations.Core.InvokeLLM({
         prompt: `Search the USDA FoodData Central database for: "${searchQuery}". Return up to 8 results with detailed nutritional information including macros and key micronutrients.`,
         add_context_from_internet: true,
         response_json_schema: {

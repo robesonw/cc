@@ -17,7 +17,7 @@ export default function Settings() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
     retry: false,
   });
 
@@ -42,7 +42,7 @@ export default function Settings() {
   };
 
   const handleLogout = () => {
-    base44.auth.logout();
+    apiClient.auth.logout();
   };
 
   return (

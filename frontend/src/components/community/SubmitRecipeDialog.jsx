@@ -37,11 +37,11 @@ export default function SubmitRecipeDialog({ open, onOpenChange }) {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const submitRecipeMutation = useMutation({
-    mutationFn: (data) => base44.entities.SharedRecipe.create(data),
+    mutationFn: (data) => apiClient.post('/api/shared-recipe', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sharedRecipes'] });
       toast.success('Recipe submitted for review!');
@@ -118,7 +118,7 @@ export default function SubmitRecipeDialog({ open, onOpenChange }) {
 
     setUploadingImage(true);
     try {
-      const result = await base44.integrations.Core.UploadFile({ file });
+      const result = await apiClient.integrations.Core.UploadFile({ file });
       setImageFile(result.file_url);
       toast.success('Image uploaded!');
     } catch (error) {
@@ -136,7 +136,7 @@ export default function SubmitRecipeDialog({ open, onOpenChange }) {
 
     setGeneratingImage(true);
     try {
-      const result = await base44.integrations.Core.GenerateImage({
+      const result = await apiClient.integrations.Core.GenerateImage({
         prompt: `Professional food photography of ${name}, appetizing presentation, natural lighting, high quality, restaurant style plating`
       });
       setImageFile(result.url);

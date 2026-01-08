@@ -22,12 +22,12 @@ export default function MealPlans() {
 
   const { data: mealPlans = [], isLoading } = useQuery({
     queryKey: ['mealPlans'],
-    queryFn: () => base44.entities.MealPlan.list('-created_date'),
+    queryFn: () => apiClient.get('/api/meal-plan', { sort: 'created_date', order: 'desc' }),
     initialData: [],
   });
 
   const deletePlanMutation = useMutation({
-    mutationFn: (planId) => base44.entities.MealPlan.delete(planId),
+    mutationFn: (planId) => apiClient.delete(`/api/meal-plan/${planId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
       toast.success('Meal plan deleted');

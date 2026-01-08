@@ -12,12 +12,12 @@ import { motion } from 'framer-motion';
 export default function Community() {
   const { data: sharedPlans = [] } = useQuery({
     queryKey: ['sharedMealPlans'],
-    queryFn: () => base44.entities.SharedMealPlan.list('-created_date', 5),
+    queryFn: () => apiClient.get('/api/shared-meal-plan', { sort: 'created_date', 5', order: 'desc' }),
   });
 
   const { data: forumPosts = [] } = useQuery({
     queryKey: ['forumPosts'],
-    queryFn: () => base44.entities.ForumPost.list('-created_date', 5),
+    queryFn: () => apiClient.get('/api/forum-post', { sort: 'created_date', 5', order: 'desc' }),
   });
 
   const stats = [

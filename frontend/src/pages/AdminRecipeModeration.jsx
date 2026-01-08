@@ -18,17 +18,17 @@ export default function AdminRecipeModeration() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: recipes = [], isLoading } = useQuery({
     queryKey: ['allSharedRecipes'],
-    queryFn: () => base44.entities.SharedRecipe.list('-created_date'),
+    queryFn: () => apiClient.get('/api/shared-recipe', { sort: 'created_date', order: 'desc' }),
   });
 
   const updateStatusMutation = useMutation({
     mutationFn: ({ id, status, notes }) => 
-      base44.entities.SharedRecipe.update(id, { status, moderation_notes: notes }),
+      apiClient.patch(`/api/shared-recipe/${id}`, { status, moderation_notes: notes }),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['allSharedRecipes'] });
       queryClient.invalidateQueries({ queryKey: ['sharedRecipes'] });
@@ -39,7 +39,7 @@ export default function AdminRecipeModeration() {
       // Notify recipe author
       const recipe = recipes.find(r => r.id === variables.id);
       if (recipe?.created_by) {
-        base44.entities.Notification.create({
+        apiClient.post('/api/notification', {
           recipient_email: recipe.created_by,
           type: variables.status === 'approved' ? 'recipe_approved' : 'recipe_rejected',
           title: `Recipe ${variables.status === 'approved' ? 'Approved' : 'Rejected'}`,

@@ -50,7 +50,7 @@ export default function Layout({ children, currentPageName }) {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
     retry: false,
   });
 

@@ -23,7 +23,7 @@ export default function FavoriteMealsPanel({ onAddToPlan }) {
 
   const { data: rawFavoriteMeals = [], isLoading } = useQuery({
     queryKey: ['favoriteMeals'],
-    queryFn: () => base44.entities.FavoriteMeal.list('-created_date'),
+    queryFn: () => apiClient.get('/api/favorite-meal', { sort: 'created_date', order: 'desc' }),
   });
 
   // Filter out duplicates based on name and meal_type
@@ -38,7 +38,7 @@ export default function FavoriteMealsPanel({ onAddToPlan }) {
   }, []);
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => base44.entities.FavoriteMeal.delete(id),
+    mutationFn: (id) => apiClient.delete(`/api/favorite-meal/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['favoriteMeals'] });
       toast.success('Removed from favorites');

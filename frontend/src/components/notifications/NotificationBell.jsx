@@ -13,17 +13,17 @@ export default function NotificationBell() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: notifications = [] } = useQuery({
     queryKey: ['notifications', user?.email],
-    queryFn: () => base44.entities.Notification.filter({ recipient_email: user?.email }, '-created_date', 50),
+    queryFn: () => apiClient.get('/api/notification', { recipient_email: user?.email }, '-created_date', 50),
     enabled: !!user?.email,
   });
 
   const markAsReadMutation = useMutation({
-    mutationFn: (notificationId) => base44.entities.Notification.update(notificationId, { is_read: true }),
+    mutationFn: (notificationId) => apiClient.patch(`/api/notification/${notificationId}`, { is_read: true }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
@@ -33,7 +33,7 @@ export default function NotificationBell() {
     mutationFn: async () => {
       const unreadNotifications = notifications.filter(n => !n.is_read);
       await Promise.all(
-        unreadNotifications.map(n => base44.entities.Notification.update(n.id, { is_read: true }))
+        unreadNotifications.map(n => apiClient.patch(`/api/notification/${n.id}`, { is_read: true }))
       );
     },
     onSuccess: () => {

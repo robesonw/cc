@@ -73,7 +73,7 @@ Provide:
 6. Chef's tips or variations
 7. Health benefits`;
 
-      const recipe = await base44.integrations.Core.InvokeLLM({
+      const recipe = await apiClient.integrations.Core.InvokeLLM({
         prompt,
         response_json_schema: {
           type: "object",
@@ -134,7 +134,7 @@ Provide:
     
     setSavingImage(true);
     try {
-      const result = await base44.integrations.Core.GenerateImage({
+      const result = await apiClient.integrations.Core.GenerateImage({
         prompt: `Professional food photography of ${generatedRecipe.name}, ${form.cuisine} cuisine, appetizing presentation, natural lighting, high quality, restaurant style plating`
       });
       
@@ -166,7 +166,7 @@ Provide:
         toast.loading('Estimating grocery costs...');
         
         try {
-          const priceData = await base44.integrations.Core.InvokeLLM({
+          const priceData = await apiClient.integrations.Core.InvokeLLM({
             prompt: `For these ingredients: ${ingredientNames.join(', ')}. Provide current average grocery prices in USD per typical package/unit from major US grocery stores. Categorize them into: Proteins, Vegetables, Fruits, Grains, Dairy/Alternatives, Spices/Condiments, Other.`,
             add_context_from_internet: true,
             response_json_schema: {
@@ -208,7 +208,7 @@ Provide:
       const cuisineName = form.cuisine === 'Other' ? form.customCuisine : form.cuisine;
       
       // Save to FavoriteMeal with all details
-      await base44.entities.FavoriteMeal.create({
+      await apiClient.post('/api/favorite-meal', {
         name: generatedRecipe.name,
         meal_type: form.mealType.toLowerCase(),
         calories: `${generatedRecipe.nutrition?.calories || 0} kcal`,
@@ -248,7 +248,7 @@ Provide:
     if (!generatedRecipe) return;
     
     try {
-      await base44.entities.SharedRecipe.create({
+      await apiClient.post('/api/shared-recipe', {
         name: generatedRecipe.name,
         meal_type: form.mealType.toLowerCase(),
         description: generatedRecipe.description,

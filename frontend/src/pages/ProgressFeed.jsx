@@ -18,22 +18,22 @@ export default function ProgressFeed() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: sharedProgress = [] } = useQuery({
     queryKey: ['sharedProgress'],
-    queryFn: () => base44.entities.SharedProgress.list('-created_date', 50),
+    queryFn: () => apiClient.get('/api/shared-progress', { sort: 'created_date', 50', order: 'desc' }),
   });
 
   const { data: comments = [] } = useQuery({
     queryKey: ['progressComments'],
-    queryFn: () => base44.entities.ProgressComment.list('-created_date'),
+    queryFn: () => apiClient.get('/api/progress-comment', { sort: 'created_date', order: 'desc' }),
   });
 
   const { data: interactions = [] } = useQuery({
     queryKey: ['progressInteractions'],
-    queryFn: () => base44.entities.UserInteraction.filter({ target_type: 'shared_progress' }),
+    queryFn: () => apiClient.get('/api/user-interaction', { target_type: 'shared_progress' }),
   });
 
   const likeProgressMutation = useMutation({
@@ -43,17 +43,17 @@ export default function ProgressFeed() {
       );
 
       if (existing) {
-        await base44.entities.UserInteraction.delete(existing.id);
-        await base44.entities.SharedProgress.update(progressId, {
+        await apiClient.delete(`/api/user-interaction/${existing.id}`);
+        await apiClient.patch(`/api/shared-progress/${progressId}`, {
           likes_count: Math.max(0, (sharedProgress.find(p => p.id === progressId)?.likes_count || 0) - 1)
         });
       } else {
-        await base44.entities.UserInteraction.create({
+        await apiClient.post('/api/user-interaction', {
           target_id: progressId,
           target_type: 'shared_progress',
           interaction_type: 'like'
         });
-        await base44.entities.SharedProgress.update(progressId, {
+        await apiClient.patch(`/api/shared-progress/${progressId}`, {
           likes_count: (sharedProgress.find(p => p.id === progressId)?.likes_count || 0) + 1
         });
       }
@@ -65,7 +65,7 @@ export default function ProgressFeed() {
   });
 
   const addCommentMutation = useMutation({
-    mutationFn: ({ progressId, comment }) => base44.entities.ProgressComment.create({
+    mutationFn: ({ progressId, comment }) => apiClient.post('/api/progress-comment', {
       progress_id: progressId,
       comment,
       author_name: user?.full_name || 'Anonymous'
@@ -73,7 +73,7 @@ export default function ProgressFeed() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['progressComments'] });
       const progress = sharedProgress.find(p => p.id === variables.progressId);
-      base44.entities.SharedProgress.update(variables.progressId, {
+      apiClient.patch(`/api/shared-progress/${variables.progressId}`, {
         comments_count: (progress?.comments_count || 0) + 1
       });
       queryClient.invalidateQueries({ queryKey: ['sharedProgress'] });

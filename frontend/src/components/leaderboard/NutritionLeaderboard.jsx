@@ -12,12 +12,12 @@ export default function NutritionLeaderboard() {
 
   const { data: logs = [] } = useQuery({
     queryKey: ['allNutritionLogs'],
-    queryFn: () => base44.entities.NutritionLog.list('-created_date', 500),
+    queryFn: () => apiClient.get('/api/nutrition-log', { sort: 'created_date', 500', order: 'desc' }),
   });
 
   const { data: goals = [] } = useQuery({
     queryKey: ['allNutritionGoals'],
-    queryFn: () => base44.entities.NutritionGoal.list(),
+    queryFn: () => apiClient.get('/api/nutrition-goal'),
   });
 
   const getDaysAgo = (days) => {

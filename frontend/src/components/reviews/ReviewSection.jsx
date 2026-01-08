@@ -18,16 +18,16 @@ export default function ReviewSection({ targetId, targetType }) {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: reviews = [] } = useQuery({
     queryKey: ['reviews', targetId],
-    queryFn: () => base44.entities.Review.filter({ target_id: targetId, target_type: targetType }),
+    queryFn: () => apiClient.get('/api/review', { target_id: targetId, target_type: targetType }),
   });
 
   const createReviewMutation = useMutation({
-    mutationFn: (data) => base44.entities.Review.create(data),
+    mutationFn: (data) => apiClient.post('/api/review', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', targetId] });
       toast.success('Review submitted!');
@@ -39,7 +39,7 @@ export default function ReviewSection({ targetId, targetType }) {
 
   const helpfulMutation = useMutation({
     mutationFn: ({ reviewId, currentCount }) => 
-      base44.entities.Review.update(reviewId, { helpful_count: currentCount + 1 }),
+      apiClient.patch(`/api/review/${reviewId}`, { helpful_count: currentCount + 1 }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', targetId] });
     },

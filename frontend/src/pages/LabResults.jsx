@@ -22,20 +22,20 @@ export default function LabResults() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
     retry: false,
   });
 
   const { data: labResults = [] } = useQuery({
     queryKey: ['labResults'],
     queryFn: async () => {
-      const currentUser = await base44.auth.me();
-      return base44.entities.LabResult.filter({ created_by: currentUser.email }, '-upload_date');
+      const currentUser = await apiClient.get('/api/auth/me');
+      return apiClient.get('/api/lab-result', { created_by: currentUser.email }, '-upload_date');
     },
   });
 
   const createLabResult = useMutation({
-    mutationFn: (data) => base44.entities.LabResult.create(data),
+    mutationFn: (data) => apiClient.post('/api/lab-result', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['labResults'] });
       toast.success('Lab result uploaded successfully!');
@@ -46,7 +46,7 @@ export default function LabResults() {
   });
 
   const deleteLabResult = useMutation({
-    mutationFn: (id) => base44.entities.LabResult.delete(id),
+    mutationFn: (id) => apiClient.delete(`/api/lab-result/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['labResults'] });
       toast.success('Lab result deleted successfully!');
@@ -78,10 +78,10 @@ export default function LabResults() {
 
     try {
       // Upload file
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      const { file_url } = await apiClient.integrations.Core.UploadFile({ file });
 
       // Extract multiple test results from PDF (handles historical data)
-      const extractedData = await base44.integrations.Core.ExtractDataFromUploadedFile({
+      const extractedData = await apiClient.integrations.Core.ExtractDataFromUploadedFile({
         file_url,
         json_schema: {
           type: "object",

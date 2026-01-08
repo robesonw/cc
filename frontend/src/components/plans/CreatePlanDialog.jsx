@@ -64,7 +64,7 @@ export default function CreatePlanDialog({ open, onOpenChange }) {
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
-    mutationFn: (planData) => base44.entities.MealPlan.create(planData),
+    mutationFn: (planData) => apiClient.post('/api/meal-plan', planData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
       toast.success('Meal plan created successfully!');
@@ -96,7 +96,7 @@ For each day provide breakfast, lunch, dinner with: name, calories (format: "XXX
 Return JSON array with ${daysCount} days starting from ${dayNames[0]}.`;
 
       try {
-        const response = await base44.integrations.Core.InvokeLLM({
+        const response = await apiClient.integrations.Core.InvokeLLM({
           prompt,
           response_json_schema: {
             type: "object",

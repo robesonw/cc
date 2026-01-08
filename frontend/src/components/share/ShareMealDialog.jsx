@@ -15,11 +15,11 @@ export default function ShareMealDialog({ meal, mealType, open, onOpenChange }) 
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const shareMealMutation = useMutation({
-    mutationFn: (data) => base44.entities.SharedRecipe.create(data),
+    mutationFn: (data) => apiClient.post('/api/shared-recipe', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sharedRecipes'] });
       toast.success('Recipe shared with the community!');

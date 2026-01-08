@@ -80,14 +80,14 @@ export default function Profile() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: preferences, isLoading } = useQuery({
     queryKey: ['userPreferences', user?.email],
     queryFn: async () => {
       if (!user?.email) return null;
-      const prefs = await base44.entities.UserPreferences.filter({ created_by: user.email });
+      const prefs = await apiClient.get('/api/user-preferences', { created_by: user.email });
       return prefs?.[0] || null;
     },
     enabled: !!user?.email,
@@ -96,7 +96,7 @@ export default function Profile() {
   const { data: myRecipes = [] } = useQuery({
     queryKey: ['mySharedRecipes'],
     queryFn: async () => {
-      const recipes = await base44.entities.SharedRecipe.list('-created_date');
+      const recipes = await apiClient.get('/api/shared-recipe', { sort: 'created_date', order: 'desc' });
       return recipes.filter(r => r.created_by === user?.email);
     },
     enabled: !!user,
@@ -106,7 +106,7 @@ export default function Profile() {
     queryKey: ['favoriteMeals', user?.email],
     queryFn: async () => {
       if (!user?.email) return [];
-      return base44.entities.FavoriteMeal.filter({ created_by: user.email }, '-created_date');
+      return apiClient.get('/api/favorite-meal', { created_by: user.email }, '-created_date');
     },
     enabled: !!user?.email,
   });
@@ -126,7 +126,7 @@ export default function Profile() {
     queryKey: ['mealPlans', user?.email],
     queryFn: async () => {
       if (!user?.email) return [];
-      return base44.entities.MealPlan.filter({ created_by: user.email }, '-created_date');
+      return apiClient.get('/api/meal-plan', { created_by: user.email }, '-created_date');
     },
     enabled: !!user?.email,
   });
@@ -135,7 +135,7 @@ export default function Profile() {
     queryKey: ['userSettings', user?.email],
     queryFn: async () => {
       if (!user?.email) return null;
-      const settings = await base44.entities.UserSettings.filter({ created_by: user.email });
+      const settings = await apiClient.get('/api/user-settings', { created_by: user.email });
       return settings?.[0] || null;
     },
     enabled: !!user?.email,
@@ -221,9 +221,9 @@ export default function Profile() {
       };
 
       if (preferences?.id) {
-        await base44.entities.UserPreferences.update(preferences.id, cleanData);
+        await apiClient.patch(`/api/user-preferences/${preferences.id}`, cleanData);
       } else {
-        await base44.entities.UserPreferences.create(cleanData);
+        await apiClient.post('/api/user-preferences', cleanData);
       }
 
       queryClient.invalidateQueries({ queryKey: ['userPreferences'] });
@@ -240,9 +240,9 @@ export default function Profile() {
     setIsSaving(true);
     try {
       if (userSettings?.id) {
-        await base44.entities.UserSettings.update(userSettings.id, settingsData);
+        await apiClient.patch(`/api/user-settings/${userSettings.id}`, settingsData);
       } else {
-        await base44.entities.UserSettings.create(settingsData);
+        await apiClient.post('/api/user-settings', settingsData);
       }
       queryClient.invalidateQueries({ queryKey: ['userSettings'] });
       toast.success('Settings saved!');
@@ -255,7 +255,7 @@ export default function Profile() {
   };
 
   const deleteRecipeMutation = useMutation({
-    mutationFn: (id) => base44.entities.SharedRecipe.delete(id),
+    mutationFn: (id) => apiClient.delete(`/api/shared-recipe/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mySharedRecipes'] });
       queryClient.invalidateQueries({ queryKey: ['sharedRecipes'] });
@@ -268,7 +268,7 @@ export default function Profile() {
   });
 
   const deleteMealPlanMutation = useMutation({
-    mutationFn: (id) => base44.entities.MealPlan.delete(id),
+    mutationFn: (id) => apiClient.delete(`/api/meal-plan/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
       toast.success('Meal plan deleted');
@@ -280,7 +280,7 @@ export default function Profile() {
   });
 
   const deleteFavoriteMutation = useMutation({
-    mutationFn: (id) => base44.entities.FavoriteMeal.delete(id),
+    mutationFn: (id) => apiClient.delete(`/api/favorite-meal/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['favoriteMeals'] });
       toast.success('Removed from favorites');

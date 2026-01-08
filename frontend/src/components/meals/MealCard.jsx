@@ -22,7 +22,7 @@ export default function MealCard({ meal, mealType, mealIcon, mealPlanId, mealPla
   
   const { data: favoriteMeals = [] } = useQuery({
     queryKey: ['favoriteMeals'],
-    queryFn: () => base44.entities.FavoriteMeal.list(),
+    queryFn: () => apiClient.get('/api/favorite-meal'),
   });
 
   const isFavorite = favoriteMeals.some(
@@ -35,14 +35,14 @@ export default function MealCard({ meal, mealType, mealIcon, mealPlanId, mealPla
         fav => fav.name === meal.name && fav.meal_type === mealType
       );
       if (existing) {
-        await base44.entities.FavoriteMeal.delete(existing.id);
+        await apiClient.delete(`/api/favorite-meal/${existing.id}`);
       } else {
         // Check if already exists to prevent duplicates
         const duplicate = favoriteMeals.find(
           fav => fav.name === meal.name && fav.meal_type === mealType
         );
         if (!duplicate) {
-          await base44.entities.FavoriteMeal.create({
+          await apiClient.post('/api/favorite-meal', {
             name: meal.name,
             meal_type: mealType,
             calories: meal.calories,

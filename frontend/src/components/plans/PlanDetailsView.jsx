@@ -56,12 +56,12 @@ export default function PlanDetailsView({ plan, open, onOpenChange }) {
 
   const { data: favoriteMeals = [] } = useQuery({
     queryKey: ['favoriteMeals'],
-    queryFn: () => base44.entities.FavoriteMeal.list('-created_date'),
+    queryFn: () => apiClient.get('/api/favorite-meal', { sort: 'created_date', order: 'desc' }),
   });
 
   const { data: sharedRecipes = [] } = useQuery({
     queryKey: ['sharedRecipes'],
-    queryFn: () => base44.entities.SharedRecipe.list('-created_date'),
+    queryFn: () => apiClient.get('/api/shared-recipe', { sort: 'created_date', order: 'desc' }),
   });
 
   React.useEffect(() => {
@@ -136,7 +136,7 @@ export default function PlanDetailsView({ plan, open, onOpenChange }) {
   }, [plan]);
 
   const updatePlanMutation = useMutation({
-    mutationFn: (data) => base44.entities.MealPlan.update(plan.id, data),
+    mutationFn: (data) => apiClient.patch(`/api/meal-plan/${plan.id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
       toast.success('Grocery list updated');
@@ -159,7 +159,7 @@ export default function PlanDetailsView({ plan, open, onOpenChange }) {
   const fetchItemPrice = async (itemName, category) => {
     setIsFetchingPrice(true);
     try {
-      const priceData = await base44.integrations.Core.InvokeLLM({
+      const priceData = await apiClient.integrations.Core.InvokeLLM({
         prompt: `Get current average grocery price in USD for: ${itemName}. Return approximate cost per typical package/unit from major US grocery stores.`,
         add_context_from_internet: true,
         response_json_schema: {
@@ -259,7 +259,7 @@ export default function PlanDetailsView({ plan, open, onOpenChange }) {
     updatedDays[dayIndex][mealType] = recipeData;
     
     try {
-      await base44.entities.MealPlan.update(plan.id, { days: updatedDays });
+      await apiClient.patch(`/api/meal-plan/${plan.id}`, { days: updatedDays });
       setLocalDays(updatedDays);
       queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
       toast.success('Recipe added to meal plan!');
@@ -350,12 +350,12 @@ export default function PlanDetailsView({ plan, open, onOpenChange }) {
     try {
       if (existingFavorite) {
         // Remove from favorites
-        await base44.entities.FavoriteMeal.delete(existingFavorite.id);
+        await apiClient.delete(`/api/favorite-meal/${existingFavorite.id}`);
         queryClient.invalidateQueries({ queryKey: ['favoriteMeals'] });
         toast.success('Removed from favorites');
       } else {
         // Add to favorites
-        await base44.entities.FavoriteMeal.create({
+        await apiClient.post('/api/favorite-meal', {
           name: meal.name,
           meal_type: mealType,
           calories: meal.calories,
@@ -396,7 +396,7 @@ export default function PlanDetailsView({ plan, open, onOpenChange }) {
       It should be healthy, nutritious, and include calorie count, macros (protein, carbs, fat in grams), 
       health benefits, and preparation tips. Make it suitable for the same diet type.`;
 
-      const newMeal = await base44.integrations.Core.InvokeLLM({
+      const newMeal = await apiClient.integrations.Core.InvokeLLM({
         prompt,
         response_json_schema: {
           type: "object",
@@ -432,7 +432,7 @@ export default function PlanDetailsView({ plan, open, onOpenChange }) {
     
     try {
       const culturalContext = plan.cultural_style && plan.cultural_style !== 'none' ? `${plan.cultural_style} style ` : '';
-      const result = await base44.integrations.Core.GenerateImage({
+      const result = await apiClient.integrations.Core.GenerateImage({
         prompt: `Professional food photography of ${culturalContext}${meal.name}, appetizing presentation, natural lighting, high quality, restaurant style plating`
       });
       
@@ -509,7 +509,7 @@ export default function PlanDetailsView({ plan, open, onOpenChange }) {
           return;
       }
 
-      const adjustedPlan = await base44.integrations.Core.InvokeLLM({
+      const adjustedPlan = await apiClient.integrations.Core.InvokeLLM({
         prompt,
         response_json_schema: {
           type: "object",
@@ -618,7 +618,7 @@ export default function PlanDetailsView({ plan, open, onOpenChange }) {
       Each meal should include: name, calories (as string like "400 kcal"), protein/carbs/fat in grams, 
       health benefits (nutrients field), and preparation tips (prepTip field).`;
 
-      const newDay = await base44.integrations.Core.InvokeLLM({
+      const newDay = await apiClient.integrations.Core.InvokeLLM({
         prompt,
         response_json_schema: {
           type: "object",

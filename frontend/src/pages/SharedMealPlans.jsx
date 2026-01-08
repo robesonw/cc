@@ -31,32 +31,32 @@ export default function SharedMealPlans() {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: sharedPlans = [] } = useQuery({
     queryKey: ['sharedMealPlans'],
-    queryFn: () => base44.entities.SharedMealPlan.list('-created_date'),
+    queryFn: () => apiClient.get('/api/shared-meal-plan', { sort: 'created_date', order: 'desc' }),
   });
 
   const { data: myPlans = [] } = useQuery({
     queryKey: ['mealPlans'],
-    queryFn: () => base44.entities.MealPlan.list('-created_date'),
+    queryFn: () => apiClient.get('/api/meal-plan', { sort: 'created_date', order: 'desc' }),
   });
 
   const { data: reviews = [] } = useQuery({
     queryKey: ['reviews'],
-    queryFn: () => base44.entities.Review.list(),
+    queryFn: () => apiClient.get('/api/review'),
   });
 
   const { data: following = [] } = useQuery({
     queryKey: ['following', user?.email],
-    queryFn: () => base44.entities.UserFollow.filter({ created_by: user?.email }),
+    queryFn: () => apiClient.get('/api/user-follow', { created_by: user?.email }),
     enabled: !!user?.email,
   });
 
   const sharePlanMutation = useMutation({
-    mutationFn: (data) => base44.entities.SharedMealPlan.create(data),
+    mutationFn: (data) => apiClient.post('/api/shared-meal-plan', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sharedMealPlans'] });
       toast.success('Meal plan shared with the community!');
@@ -66,7 +66,7 @@ export default function SharedMealPlans() {
   });
 
   const addReviewMutation = useMutation({
-    mutationFn: (data) => base44.entities.Review.create(data),
+    mutationFn: (data) => apiClient.post('/api/review', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews'] });
       toast.success('Review added!');
@@ -76,13 +76,13 @@ export default function SharedMealPlans() {
   });
 
   const followMutation = useMutation({
-    mutationFn: (data) => base44.entities.UserFollow.create(data),
+    mutationFn: (data) => apiClient.post('/api/user-follow', data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['following'] });
       toast.success(`Following ${variables.following_user_name}`);
       
       // Create notification
-      base44.entities.Notification.create({
+      apiClient.post('/api/notification', {
         recipient_email: variables.following_user_email,
         type: 'new_follower',
         title: 'New Follower',
@@ -93,7 +93,7 @@ export default function SharedMealPlans() {
   });
 
   const unfollowMutation = useMutation({
-    mutationFn: (followId) => base44.entities.UserFollow.delete(followId),
+    mutationFn: (followId) => apiClient.delete(`/api/user-follow/${followId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['following'] });
       toast.success('Unfollowed');
@@ -101,7 +101,7 @@ export default function SharedMealPlans() {
   });
 
   const interactionMutation = useMutation({
-    mutationFn: (data) => base44.entities.UserInteraction.create(data),
+    mutationFn: (data) => apiClient.post('/api/user-interaction', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sharedMealPlans'] });
     },
@@ -134,7 +134,7 @@ export default function SharedMealPlans() {
     
     // Create notification for author
     if (plan.created_by && plan.created_by !== user?.email) {
-      base44.entities.Notification.create({
+      apiClient.post('/api/notification', {
         recipient_email: plan.created_by,
         type: 'plan_like',
         title: 'Meal Plan Liked',
@@ -167,7 +167,7 @@ export default function SharedMealPlans() {
 
   const handleSave = (plan) => {
     // Save as user's own meal plan
-    base44.entities.MealPlan.create({
+    apiClient.post('/api/meal-plan', {
       name: `${plan.title} (Community)`,
       diet_type: plan.diet_type,
       days: plan.plan_data.days,

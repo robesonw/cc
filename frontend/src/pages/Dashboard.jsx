@@ -24,23 +24,23 @@ import OnboardingTour from '../components/onboarding/OnboardingTour';
 export default function Dashboard() {
   const { data: mealPlans = [] } = useQuery({
     queryKey: ['mealPlans'],
-    queryFn: () => base44.entities.MealPlan.list('-created_date', 10),
+    queryFn: () => apiClient.get('/api/meal-plan', { sort: 'created_date', 10', order: 'desc' }),
   });
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
     retry: false,
   });
 
   const { data: sharedPlans = [] } = useQuery({
     queryKey: ['sharedPlans'],
-    queryFn: () => base44.entities.SharedMealPlan.list('-created_date', 3),
+    queryFn: () => apiClient.get('/api/shared-meal-plan', { sort: 'created_date', 3', order: 'desc' }),
   });
 
   const { data: labResults = [] } = useQuery({
     queryKey: ['labResults'],
-    queryFn: () => base44.entities.LabResult.list('-upload_date', 1),
+    queryFn: () => apiClient.get('/api/lab-result', { sort: 'upload_date', 1', order: 'desc' }),
   });
 
   // Calculate accurate statistics

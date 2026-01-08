@@ -19,12 +19,12 @@ export default function ShareProgressDialog({ open, onOpenChange, logs }) {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => apiClient.get('/api/auth/me'),
   });
 
   const { data: goals = [] } = useQuery({
     queryKey: ['nutritionGoals', user?.email],
-    queryFn: () => base44.entities.NutritionGoal.filter({ created_by: user?.email }),
+    queryFn: () => apiClient.get('/api/nutrition-goal', { created_by: user?.email }),
     enabled: !!user?.email,
   });
 
@@ -67,7 +67,7 @@ export default function ShareProgressDialog({ open, onOpenChange, logs }) {
   }, [logs, goals]);
 
   const shareProgressMutation = useMutation({
-    mutationFn: (data) => base44.entities.SharedProgress.create(data),
+    mutationFn: (data) => apiClient.post('/api/shared-progress', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sharedProgress'] });
       toast.success('Progress shared with the community!');

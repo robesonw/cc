@@ -6,7 +6,7 @@ import { Star } from 'lucide-react';
 export default function RecipeRating({ recipeId, targetType, compact = false }) {
   const { data: reviews = [] } = useQuery({
     queryKey: ['reviews', recipeId],
-    queryFn: () => base44.entities.Review.filter({ target_id: recipeId, target_type: targetType }),
+    queryFn: () => apiClient.get('/api/review', { target_id: recipeId, target_type: targetType }),
     enabled: !!recipeId,
   });
 

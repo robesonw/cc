@@ -122,7 +122,7 @@ export default function HealthDietHub() {
     const itemsList = Array.from(items).join(', ');
     
     try {
-      const priceData = await base44.integrations.Core.InvokeLLM({
+      const priceData = await apiClient.integrations.Core.InvokeLLM({
         prompt: `Get current average grocery prices in USD for these items (scaled for ${numPeople} people for a week): ${itemsList}. 
         Return prices as approximate cost per typical package/unit from major US grocery stores. 
         For items serving ${numPeople} people for a week, estimate quantities needed.`,
@@ -182,7 +182,7 @@ export default function HealthDietHub() {
 
   const { data: userPrefs } = useQuery({
     queryKey: ['userPreferences'],
-    queryFn: () => base44.entities.UserPreferences.list(),
+    queryFn: () => apiClient.get('/api/user-preferences'),
     select: (data) => data?.[0] || null,
   });
 
@@ -230,11 +230,11 @@ export default function HealthDietHub() {
 
   const { data: labResults = [] } = useQuery({
     queryKey: ['labResults'],
-    queryFn: () => base44.entities.LabResult.list('-upload_date'),
+    queryFn: () => apiClient.get('/api/lab-result', { sort: 'upload_date', order: 'desc' }),
   });
 
   const savePlanMutation = useMutation({
-    mutationFn: (planData) => base44.entities.MealPlan.create(planData),
+    mutationFn: (planData) => apiClient.post('/api/meal-plan', planData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
       toast.success('Meal plan saved successfully!');
@@ -344,7 +344,7 @@ Return a JSON object with the meal plan, health notes, estimated weekly cost, an
 
     try {
       // Generate meal plan
-      const response = await base44.integrations.Core.InvokeLLM({
+      const response = await apiClient.integrations.Core.InvokeLLM({
         prompt,
         response_json_schema: {
           type: "object",
@@ -480,7 +480,7 @@ Return a JSON object with the meal plan, health notes, estimated weekly cost, an
         try {
           const effectiveCulturalStyle = customCulturalStyle.trim() || (culturalStyle !== 'none' ? culturalStyle : '');
           const culturalContext = effectiveCulturalStyle ? `${effectiveCulturalStyle} style ` : '';
-          const result = await base44.integrations.Core.GenerateImage({
+          const result = await apiClient.integrations.Core.GenerateImage({
             prompt: `Professional food photography of ${culturalContext}${mealName}, appetizing presentation, natural lighting, high quality, restaurant style plating`
           });
           
@@ -513,7 +513,7 @@ Return a JSON object with the meal plan, health notes, estimated weekly cost, an
     try {
       const effectiveCulturalStyle = customCulturalStyle.trim() || (culturalStyle !== 'none' ? culturalStyle : '');
       const culturalContext = effectiveCulturalStyle ? `${effectiveCulturalStyle} style ` : '';
-      const result = await base44.integrations.Core.GenerateImage({
+      const result = await apiClient.integrations.Core.GenerateImage({
         prompt: `Professional food photography of ${culturalContext}${meal.name}, appetizing presentation, natural lighting, high quality, restaurant style plating`
       });
       

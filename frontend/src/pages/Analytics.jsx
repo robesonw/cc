@@ -9,7 +9,7 @@ import { TrendingUp, Calendar, Flame, Target } from 'lucide-react';
 export default function Analytics() {
   const { data: mealPlans = [] } = useQuery({
     queryKey: ['mealPlans'],
-    queryFn: () => base44.entities.MealPlan.list(),
+    queryFn: () => apiClient.get('/api/meal-plan'),
   });
 
   // Calculate macronutrient distribution across all plans
