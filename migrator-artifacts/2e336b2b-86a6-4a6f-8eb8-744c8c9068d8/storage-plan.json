@@ -1,0 +1,105 @@
+{
+  "mode": "postgres",
+  "entities": [
+    {
+      "name": "FavoriteMeal",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "Feedback",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "ForumComment",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "ForumPost",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "GroceryList",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "LabResult",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "MealPlan",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "Notification",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "NutritionGoal",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "NutritionLog",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "ProgressComment",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "RecipeComment",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "Review",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "SharedMealPlan",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "SharedProgress",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "SharedRecipe",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "UserFollow",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "UserInteraction",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "UserPreferences",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    },
+    {
+      "name": "UserSettings",
+      "store": "postgres",
+      "reason": "db_stack is postgres"
+    }
+  ]
+}

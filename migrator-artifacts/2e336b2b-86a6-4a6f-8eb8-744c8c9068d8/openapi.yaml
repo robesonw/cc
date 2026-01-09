@@ -1,0 +1,6271 @@
+openapi: 3.0.3
+info:
+  title: Generated API
+  version: 0.1.0
+  description: API generated from ui-contract.json
+servers:
+- url: http://localhost:8080
+  description: Development server
+tags:
+- name: FavoriteMeal
+- name: Feedback
+- name: ForumComment
+- name: ForumPost
+- name: GroceryList
+- name: LabResult
+- name: MealPlan
+- name: Notification
+- name: NutritionGoal
+- name: NutritionLog
+- name: ProgressComment
+- name: RecipeComment
+- name: Review
+- name: SharedMealPlan
+- name: SharedProgress
+- name: SharedRecipe
+- name: UserFollow
+- name: UserInteraction
+- name: UserPreferences
+- name: UserSettings
+- name: upstream
+paths:
+  /api/favorite-meal:
+    get:
+      operationId: favoriteMeal_list
+      tags:
+      - FavoriteMeal
+      summary: List FavoriteMeal entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FavoriteMeal'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id001
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id002
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id003
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: favoriteMeal_create
+      tags:
+      - FavoriteMeal
+      summary: Create a new FavoriteMeal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FavoriteMealCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteMeal'
+        '400': *id001
+        '404': *id002
+        '500': *id003
+  /api/favorite-meal/{id}:
+    get:
+      operationId: favoriteMeal_get
+      tags:
+      - FavoriteMeal
+      summary: Get a FavoriteMeal by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: FavoriteMeal ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteMeal'
+        '400': *id001
+        '404': *id002
+        '500': *id003
+    put:
+      operationId: favoriteMeal_update
+      tags:
+      - FavoriteMeal
+      summary: Replace a FavoriteMeal
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: FavoriteMeal ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FavoriteMealUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteMeal'
+        '400': *id001
+        '404': *id002
+        '500': *id003
+    patch:
+      operationId: favoriteMeal_patch
+      tags:
+      - FavoriteMeal
+      summary: Partially update a FavoriteMeal
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: FavoriteMeal ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FavoriteMealUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteMeal'
+        '400': *id001
+        '404': *id002
+        '500': *id003
+    delete:
+      operationId: favoriteMeal_delete
+      tags:
+      - FavoriteMeal
+      summary: Delete a FavoriteMeal
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: FavoriteMeal ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id001
+        '404': *id002
+        '500': *id003
+  /api/feedback:
+    get:
+      operationId: feedback_list
+      tags:
+      - Feedback
+      summary: List Feedback entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Feedback'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id004
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id005
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id006
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: feedback_create
+      tags:
+      - Feedback
+      summary: Create a new Feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        '400': *id004
+        '404': *id005
+        '500': *id006
+  /api/feedback/{id}:
+    get:
+      operationId: feedback_get
+      tags:
+      - Feedback
+      summary: Get a Feedback by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Feedback ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        '400': *id004
+        '404': *id005
+        '500': *id006
+    put:
+      operationId: feedback_update
+      tags:
+      - Feedback
+      summary: Replace a Feedback
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Feedback ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        '400': *id004
+        '404': *id005
+        '500': *id006
+    patch:
+      operationId: feedback_patch
+      tags:
+      - Feedback
+      summary: Partially update a Feedback
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Feedback ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        '400': *id004
+        '404': *id005
+        '500': *id006
+    delete:
+      operationId: feedback_delete
+      tags:
+      - Feedback
+      summary: Delete a Feedback
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Feedback ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id004
+        '404': *id005
+        '500': *id006
+  /api/forum-comment:
+    get:
+      operationId: forumComment_list
+      tags:
+      - ForumComment
+      summary: List ForumComment entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ForumComment'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id007
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id008
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id009
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: forumComment_create
+      tags:
+      - ForumComment
+      summary: Create a new ForumComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumCommentCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumComment'
+        '400': *id007
+        '404': *id008
+        '500': *id009
+  /api/forum-comment/{id}:
+    get:
+      operationId: forumComment_get
+      tags:
+      - ForumComment
+      summary: Get a ForumComment by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ForumComment ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumComment'
+        '400': *id007
+        '404': *id008
+        '500': *id009
+    put:
+      operationId: forumComment_update
+      tags:
+      - ForumComment
+      summary: Replace a ForumComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ForumComment ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumCommentUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumComment'
+        '400': *id007
+        '404': *id008
+        '500': *id009
+    patch:
+      operationId: forumComment_patch
+      tags:
+      - ForumComment
+      summary: Partially update a ForumComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ForumComment ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumCommentUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumComment'
+        '400': *id007
+        '404': *id008
+        '500': *id009
+    delete:
+      operationId: forumComment_delete
+      tags:
+      - ForumComment
+      summary: Delete a ForumComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ForumComment ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id007
+        '404': *id008
+        '500': *id009
+  /api/forum-post:
+    get:
+      operationId: forumPost_list
+      tags:
+      - ForumPost
+      summary: List ForumPost entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ForumPost'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id010
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id011
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id012
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: forumPost_create
+      tags:
+      - ForumPost
+      summary: Create a new ForumPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumPostCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumPost'
+        '400': *id010
+        '404': *id011
+        '500': *id012
+  /api/forum-post/{id}:
+    get:
+      operationId: forumPost_get
+      tags:
+      - ForumPost
+      summary: Get a ForumPost by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ForumPost ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumPost'
+        '400': *id010
+        '404': *id011
+        '500': *id012
+    put:
+      operationId: forumPost_update
+      tags:
+      - ForumPost
+      summary: Replace a ForumPost
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ForumPost ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumPostUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumPost'
+        '400': *id010
+        '404': *id011
+        '500': *id012
+    patch:
+      operationId: forumPost_patch
+      tags:
+      - ForumPost
+      summary: Partially update a ForumPost
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ForumPost ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumPostUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumPost'
+        '400': *id010
+        '404': *id011
+        '500': *id012
+    delete:
+      operationId: forumPost_delete
+      tags:
+      - ForumPost
+      summary: Delete a ForumPost
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ForumPost ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id010
+        '404': *id011
+        '500': *id012
+  /api/grocery-list:
+    get:
+      operationId: groceryList_list
+      tags:
+      - GroceryList
+      summary: List GroceryList entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GroceryList'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id013
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id014
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id015
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: groceryList_create
+      tags:
+      - GroceryList
+      summary: Create a new GroceryList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroceryListCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroceryList'
+        '400': *id013
+        '404': *id014
+        '500': *id015
+  /api/grocery-list/{id}:
+    get:
+      operationId: groceryList_get
+      tags:
+      - GroceryList
+      summary: Get a GroceryList by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: GroceryList ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroceryList'
+        '400': *id013
+        '404': *id014
+        '500': *id015
+    put:
+      operationId: groceryList_update
+      tags:
+      - GroceryList
+      summary: Replace a GroceryList
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: GroceryList ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroceryListUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroceryList'
+        '400': *id013
+        '404': *id014
+        '500': *id015
+    patch:
+      operationId: groceryList_patch
+      tags:
+      - GroceryList
+      summary: Partially update a GroceryList
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: GroceryList ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroceryListUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroceryList'
+        '400': *id013
+        '404': *id014
+        '500': *id015
+    delete:
+      operationId: groceryList_delete
+      tags:
+      - GroceryList
+      summary: Delete a GroceryList
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: GroceryList ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id013
+        '404': *id014
+        '500': *id015
+  /api/lab-result:
+    get:
+      operationId: labResult_list
+      tags:
+      - LabResult
+      summary: List LabResult entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LabResult'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id016
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id017
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id018
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: labResult_create
+      tags:
+      - LabResult
+      summary: Create a new LabResult
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabResultCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabResult'
+        '400': *id016
+        '404': *id017
+        '500': *id018
+  /api/lab-result/{id}:
+    get:
+      operationId: labResult_get
+      tags:
+      - LabResult
+      summary: Get a LabResult by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: LabResult ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabResult'
+        '400': *id016
+        '404': *id017
+        '500': *id018
+    put:
+      operationId: labResult_update
+      tags:
+      - LabResult
+      summary: Replace a LabResult
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: LabResult ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabResultUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabResult'
+        '400': *id016
+        '404': *id017
+        '500': *id018
+    patch:
+      operationId: labResult_patch
+      tags:
+      - LabResult
+      summary: Partially update a LabResult
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: LabResult ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabResultUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabResult'
+        '400': *id016
+        '404': *id017
+        '500': *id018
+    delete:
+      operationId: labResult_delete
+      tags:
+      - LabResult
+      summary: Delete a LabResult
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: LabResult ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id016
+        '404': *id017
+        '500': *id018
+  /api/meal-plan:
+    get:
+      operationId: mealPlan_list
+      tags:
+      - MealPlan
+      summary: List MealPlan entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MealPlan'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id019
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id020
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id021
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: mealPlan_create
+      tags:
+      - MealPlan
+      summary: Create a new MealPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MealPlanCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealPlan'
+        '400': *id019
+        '404': *id020
+        '500': *id021
+  /api/meal-plan/{id}:
+    get:
+      operationId: mealPlan_get
+      tags:
+      - MealPlan
+      summary: Get a MealPlan by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MealPlan ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealPlan'
+        '400': *id019
+        '404': *id020
+        '500': *id021
+    put:
+      operationId: mealPlan_update
+      tags:
+      - MealPlan
+      summary: Replace a MealPlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MealPlan ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MealPlanUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealPlan'
+        '400': *id019
+        '404': *id020
+        '500': *id021
+    patch:
+      operationId: mealPlan_patch
+      tags:
+      - MealPlan
+      summary: Partially update a MealPlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MealPlan ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MealPlanUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealPlan'
+        '400': *id019
+        '404': *id020
+        '500': *id021
+    delete:
+      operationId: mealPlan_delete
+      tags:
+      - MealPlan
+      summary: Delete a MealPlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MealPlan ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id019
+        '404': *id020
+        '500': *id021
+  /api/notification:
+    get:
+      operationId: notification_list
+      tags:
+      - Notification
+      summary: List Notification entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Notification'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id022
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id023
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id024
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: notification_create
+      tags:
+      - Notification
+      summary: Create a new Notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400': *id022
+        '404': *id023
+        '500': *id024
+  /api/notification/{id}:
+    get:
+      operationId: notification_get
+      tags:
+      - Notification
+      summary: Get a Notification by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Notification ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400': *id022
+        '404': *id023
+        '500': *id024
+    put:
+      operationId: notification_update
+      tags:
+      - Notification
+      summary: Replace a Notification
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Notification ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400': *id022
+        '404': *id023
+        '500': *id024
+    patch:
+      operationId: notification_patch
+      tags:
+      - Notification
+      summary: Partially update a Notification
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Notification ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400': *id022
+        '404': *id023
+        '500': *id024
+    delete:
+      operationId: notification_delete
+      tags:
+      - Notification
+      summary: Delete a Notification
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Notification ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id022
+        '404': *id023
+        '500': *id024
+  /api/nutrition-goal:
+    get:
+      operationId: nutritionGoal_list
+      tags:
+      - NutritionGoal
+      summary: List NutritionGoal entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/NutritionGoal'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id025
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id026
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id027
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: nutritionGoal_create
+      tags:
+      - NutritionGoal
+      summary: Create a new NutritionGoal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NutritionGoalCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionGoal'
+        '400': *id025
+        '404': *id026
+        '500': *id027
+  /api/nutrition-goal/{id}:
+    get:
+      operationId: nutritionGoal_get
+      tags:
+      - NutritionGoal
+      summary: Get a NutritionGoal by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: NutritionGoal ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionGoal'
+        '400': *id025
+        '404': *id026
+        '500': *id027
+    put:
+      operationId: nutritionGoal_update
+      tags:
+      - NutritionGoal
+      summary: Replace a NutritionGoal
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: NutritionGoal ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NutritionGoalUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionGoal'
+        '400': *id025
+        '404': *id026
+        '500': *id027
+    patch:
+      operationId: nutritionGoal_patch
+      tags:
+      - NutritionGoal
+      summary: Partially update a NutritionGoal
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: NutritionGoal ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NutritionGoalUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionGoal'
+        '400': *id025
+        '404': *id026
+        '500': *id027
+    delete:
+      operationId: nutritionGoal_delete
+      tags:
+      - NutritionGoal
+      summary: Delete a NutritionGoal
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: NutritionGoal ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id025
+        '404': *id026
+        '500': *id027
+  /api/nutrition-log:
+    get:
+      operationId: nutritionLog_list
+      tags:
+      - NutritionLog
+      summary: List NutritionLog entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/NutritionLog'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id028
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id029
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id030
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: nutritionLog_create
+      tags:
+      - NutritionLog
+      summary: Create a new NutritionLog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NutritionLogCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionLog'
+        '400': *id028
+        '404': *id029
+        '500': *id030
+  /api/nutrition-log/{id}:
+    get:
+      operationId: nutritionLog_get
+      tags:
+      - NutritionLog
+      summary: Get a NutritionLog by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: NutritionLog ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionLog'
+        '400': *id028
+        '404': *id029
+        '500': *id030
+    put:
+      operationId: nutritionLog_update
+      tags:
+      - NutritionLog
+      summary: Replace a NutritionLog
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: NutritionLog ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NutritionLogUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionLog'
+        '400': *id028
+        '404': *id029
+        '500': *id030
+    patch:
+      operationId: nutritionLog_patch
+      tags:
+      - NutritionLog
+      summary: Partially update a NutritionLog
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: NutritionLog ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NutritionLogUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionLog'
+        '400': *id028
+        '404': *id029
+        '500': *id030
+    delete:
+      operationId: nutritionLog_delete
+      tags:
+      - NutritionLog
+      summary: Delete a NutritionLog
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: NutritionLog ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id028
+        '404': *id029
+        '500': *id030
+  /api/progress-comment:
+    get:
+      operationId: progressComment_list
+      tags:
+      - ProgressComment
+      summary: List ProgressComment entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProgressComment'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id031
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id032
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id033
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: progressComment_create
+      tags:
+      - ProgressComment
+      summary: Create a new ProgressComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgressCommentCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgressComment'
+        '400': *id031
+        '404': *id032
+        '500': *id033
+  /api/progress-comment/{id}:
+    get:
+      operationId: progressComment_get
+      tags:
+      - ProgressComment
+      summary: Get a ProgressComment by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ProgressComment ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgressComment'
+        '400': *id031
+        '404': *id032
+        '500': *id033
+    put:
+      operationId: progressComment_update
+      tags:
+      - ProgressComment
+      summary: Replace a ProgressComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ProgressComment ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgressCommentUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgressComment'
+        '400': *id031
+        '404': *id032
+        '500': *id033
+    patch:
+      operationId: progressComment_patch
+      tags:
+      - ProgressComment
+      summary: Partially update a ProgressComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ProgressComment ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgressCommentUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgressComment'
+        '400': *id031
+        '404': *id032
+        '500': *id033
+    delete:
+      operationId: progressComment_delete
+      tags:
+      - ProgressComment
+      summary: Delete a ProgressComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ProgressComment ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id031
+        '404': *id032
+        '500': *id033
+  /api/recipe-comment:
+    get:
+      operationId: recipeComment_list
+      tags:
+      - RecipeComment
+      summary: List RecipeComment entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RecipeComment'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id034
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id035
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id036
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: recipeComment_create
+      tags:
+      - RecipeComment
+      summary: Create a new RecipeComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCommentCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeComment'
+        '400': *id034
+        '404': *id035
+        '500': *id036
+  /api/recipe-comment/{id}:
+    get:
+      operationId: recipeComment_get
+      tags:
+      - RecipeComment
+      summary: Get a RecipeComment by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: RecipeComment ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeComment'
+        '400': *id034
+        '404': *id035
+        '500': *id036
+    put:
+      operationId: recipeComment_update
+      tags:
+      - RecipeComment
+      summary: Replace a RecipeComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: RecipeComment ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCommentUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeComment'
+        '400': *id034
+        '404': *id035
+        '500': *id036
+    patch:
+      operationId: recipeComment_patch
+      tags:
+      - RecipeComment
+      summary: Partially update a RecipeComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: RecipeComment ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCommentUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeComment'
+        '400': *id034
+        '404': *id035
+        '500': *id036
+    delete:
+      operationId: recipeComment_delete
+      tags:
+      - RecipeComment
+      summary: Delete a RecipeComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: RecipeComment ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id034
+        '404': *id035
+        '500': *id036
+  /api/review:
+    get:
+      operationId: review_list
+      tags:
+      - Review
+      summary: List Review entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Review'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id037
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id038
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id039
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: review_create
+      tags:
+      - Review
+      summary: Create a new Review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400': *id037
+        '404': *id038
+        '500': *id039
+  /api/review/{id}:
+    get:
+      operationId: review_get
+      tags:
+      - Review
+      summary: Get a Review by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Review ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400': *id037
+        '404': *id038
+        '500': *id039
+    put:
+      operationId: review_update
+      tags:
+      - Review
+      summary: Replace a Review
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Review ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400': *id037
+        '404': *id038
+        '500': *id039
+    patch:
+      operationId: review_patch
+      tags:
+      - Review
+      summary: Partially update a Review
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Review ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400': *id037
+        '404': *id038
+        '500': *id039
+    delete:
+      operationId: review_delete
+      tags:
+      - Review
+      summary: Delete a Review
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Review ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id037
+        '404': *id038
+        '500': *id039
+  /api/shared-meal-plan:
+    get:
+      operationId: sharedMealPlan_list
+      tags:
+      - SharedMealPlan
+      summary: List SharedMealPlan entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SharedMealPlan'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id040
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id041
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id042
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: sharedMealPlan_create
+      tags:
+      - SharedMealPlan
+      summary: Create a new SharedMealPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedMealPlanCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedMealPlan'
+        '400': *id040
+        '404': *id041
+        '500': *id042
+  /api/shared-meal-plan/{id}:
+    get:
+      operationId: sharedMealPlan_get
+      tags:
+      - SharedMealPlan
+      summary: Get a SharedMealPlan by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedMealPlan ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedMealPlan'
+        '400': *id040
+        '404': *id041
+        '500': *id042
+    put:
+      operationId: sharedMealPlan_update
+      tags:
+      - SharedMealPlan
+      summary: Replace a SharedMealPlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedMealPlan ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedMealPlanUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedMealPlan'
+        '400': *id040
+        '404': *id041
+        '500': *id042
+    patch:
+      operationId: sharedMealPlan_patch
+      tags:
+      - SharedMealPlan
+      summary: Partially update a SharedMealPlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedMealPlan ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedMealPlanUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedMealPlan'
+        '400': *id040
+        '404': *id041
+        '500': *id042
+    delete:
+      operationId: sharedMealPlan_delete
+      tags:
+      - SharedMealPlan
+      summary: Delete a SharedMealPlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedMealPlan ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id040
+        '404': *id041
+        '500': *id042
+  /api/shared-progress:
+    get:
+      operationId: sharedProgress_list
+      tags:
+      - SharedProgress
+      summary: List SharedProgress entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SharedProgress'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id043
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id044
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id045
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: sharedProgress_create
+      tags:
+      - SharedProgress
+      summary: Create a new SharedProgress
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedProgressCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedProgress'
+        '400': *id043
+        '404': *id044
+        '500': *id045
+  /api/shared-progress/{id}:
+    get:
+      operationId: sharedProgress_get
+      tags:
+      - SharedProgress
+      summary: Get a SharedProgress by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedProgress ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedProgress'
+        '400': *id043
+        '404': *id044
+        '500': *id045
+    put:
+      operationId: sharedProgress_update
+      tags:
+      - SharedProgress
+      summary: Replace a SharedProgress
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedProgress ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedProgressUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedProgress'
+        '400': *id043
+        '404': *id044
+        '500': *id045
+    patch:
+      operationId: sharedProgress_patch
+      tags:
+      - SharedProgress
+      summary: Partially update a SharedProgress
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedProgress ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedProgressUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedProgress'
+        '400': *id043
+        '404': *id044
+        '500': *id045
+    delete:
+      operationId: sharedProgress_delete
+      tags:
+      - SharedProgress
+      summary: Delete a SharedProgress
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedProgress ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id043
+        '404': *id044
+        '500': *id045
+  /api/shared-recipe:
+    get:
+      operationId: sharedRecipe_list
+      tags:
+      - SharedRecipe
+      summary: List SharedRecipe entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SharedRecipe'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id046
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id047
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id048
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: sharedRecipe_create
+      tags:
+      - SharedRecipe
+      summary: Create a new SharedRecipe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedRecipeCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedRecipe'
+        '400': *id046
+        '404': *id047
+        '500': *id048
+  /api/shared-recipe/{id}:
+    get:
+      operationId: sharedRecipe_get
+      tags:
+      - SharedRecipe
+      summary: Get a SharedRecipe by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedRecipe ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedRecipe'
+        '400': *id046
+        '404': *id047
+        '500': *id048
+    put:
+      operationId: sharedRecipe_update
+      tags:
+      - SharedRecipe
+      summary: Replace a SharedRecipe
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedRecipe ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedRecipeUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedRecipe'
+        '400': *id046
+        '404': *id047
+        '500': *id048
+    patch:
+      operationId: sharedRecipe_patch
+      tags:
+      - SharedRecipe
+      summary: Partially update a SharedRecipe
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedRecipe ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedRecipeUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedRecipe'
+        '400': *id046
+        '404': *id047
+        '500': *id048
+    delete:
+      operationId: sharedRecipe_delete
+      tags:
+      - SharedRecipe
+      summary: Delete a SharedRecipe
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: SharedRecipe ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id046
+        '404': *id047
+        '500': *id048
+  /api/user-follow:
+    get:
+      operationId: userFollow_list
+      tags:
+      - UserFollow
+      summary: List UserFollow entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserFollow'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id049
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id050
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id051
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: userFollow_create
+      tags:
+      - UserFollow
+      summary: Create a new UserFollow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserFollowCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFollow'
+        '400': *id049
+        '404': *id050
+        '500': *id051
+  /api/user-follow/{id}:
+    get:
+      operationId: userFollow_get
+      tags:
+      - UserFollow
+      summary: Get a UserFollow by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserFollow ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFollow'
+        '400': *id049
+        '404': *id050
+        '500': *id051
+    put:
+      operationId: userFollow_update
+      tags:
+      - UserFollow
+      summary: Replace a UserFollow
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserFollow ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserFollowUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFollow'
+        '400': *id049
+        '404': *id050
+        '500': *id051
+    patch:
+      operationId: userFollow_patch
+      tags:
+      - UserFollow
+      summary: Partially update a UserFollow
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserFollow ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserFollowUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFollow'
+        '400': *id049
+        '404': *id050
+        '500': *id051
+    delete:
+      operationId: userFollow_delete
+      tags:
+      - UserFollow
+      summary: Delete a UserFollow
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserFollow ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id049
+        '404': *id050
+        '500': *id051
+  /api/user-interaction:
+    get:
+      operationId: userInteraction_list
+      tags:
+      - UserInteraction
+      summary: List UserInteraction entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserInteraction'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id052
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id053
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id054
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: userInteraction_create
+      tags:
+      - UserInteraction
+      summary: Create a new UserInteraction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInteractionCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInteraction'
+        '400': *id052
+        '404': *id053
+        '500': *id054
+  /api/user-interaction/{id}:
+    get:
+      operationId: userInteraction_get
+      tags:
+      - UserInteraction
+      summary: Get a UserInteraction by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserInteraction ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInteraction'
+        '400': *id052
+        '404': *id053
+        '500': *id054
+    put:
+      operationId: userInteraction_update
+      tags:
+      - UserInteraction
+      summary: Replace a UserInteraction
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserInteraction ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInteractionUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInteraction'
+        '400': *id052
+        '404': *id053
+        '500': *id054
+    patch:
+      operationId: userInteraction_patch
+      tags:
+      - UserInteraction
+      summary: Partially update a UserInteraction
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserInteraction ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInteractionUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInteraction'
+        '400': *id052
+        '404': *id053
+        '500': *id054
+    delete:
+      operationId: userInteraction_delete
+      tags:
+      - UserInteraction
+      summary: Delete a UserInteraction
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserInteraction ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id052
+        '404': *id053
+        '500': *id054
+  /api/user-preferences:
+    get:
+      operationId: userPreferences_list
+      tags:
+      - UserPreferences
+      summary: List UserPreferences entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserPreferences'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id055
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id056
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id057
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: userPreferences_create
+      tags:
+      - UserPreferences
+      summary: Create a new UserPreferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPreferencesCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+        '400': *id055
+        '404': *id056
+        '500': *id057
+  /api/user-preferences/{id}:
+    get:
+      operationId: userPreferences_get
+      tags:
+      - UserPreferences
+      summary: Get a UserPreferences by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserPreferences ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+        '400': *id055
+        '404': *id056
+        '500': *id057
+    put:
+      operationId: userPreferences_update
+      tags:
+      - UserPreferences
+      summary: Replace a UserPreferences
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserPreferences ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPreferencesUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+        '400': *id055
+        '404': *id056
+        '500': *id057
+    patch:
+      operationId: userPreferences_patch
+      tags:
+      - UserPreferences
+      summary: Partially update a UserPreferences
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserPreferences ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPreferencesUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+        '400': *id055
+        '404': *id056
+        '500': *id057
+    delete:
+      operationId: userPreferences_delete
+      tags:
+      - UserPreferences
+      summary: Delete a UserPreferences
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserPreferences ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id055
+        '404': *id056
+        '500': *id057
+  /api/user-settings:
+    get:
+      operationId: userSettings_list
+      tags:
+      - UserSettings
+      summary: List UserSettings entities
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Maximum number of items to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Number of items to skip
+      - name: q
+        in: query
+        schema:
+          type: string
+        description: Search query
+        required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserSettings'
+                  total:
+                    type: integer
+                required:
+                - items
+                - total
+        '400': &id058
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404': &id059
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500': &id060
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: userSettings_create
+      tags:
+      - UserSettings
+      summary: Create a new UserSettings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSettingsCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+        '400': *id058
+        '404': *id059
+        '500': *id060
+  /api/user-settings/{id}:
+    get:
+      operationId: userSettings_get
+      tags:
+      - UserSettings
+      summary: Get a UserSettings by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserSettings ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+        '400': *id058
+        '404': *id059
+        '500': *id060
+    put:
+      operationId: userSettings_update
+      tags:
+      - UserSettings
+      summary: Replace a UserSettings
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserSettings ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSettingsUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+        '400': *id058
+        '404': *id059
+        '500': *id060
+    patch:
+      operationId: userSettings_patch
+      tags:
+      - UserSettings
+      summary: Partially update a UserSettings
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserSettings ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSettingsUpdate'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+        '400': *id058
+        '404': *id059
+        '500': *id060
+    delete:
+      operationId: userSettings_delete
+      tags:
+      - UserSettings
+      summary: Delete a UserSettings
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: UserSettings ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                required:
+                - deleted
+        '400': *id058
+        '404': *id059
+        '500': *id060
+  /api/@base44/sdk:
+    get:
+      tags:
+      - upstream
+      summary: GET /api/@base44/sdk (from wrapper)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  ? "/api/;\n\nconst { appId, token, functionsVersion } = appParams;\n\n//Create a\
+    \ client with authentication required\nexport const base44 = createClient({\n\
+    \  appId,\n  token,\n  functionsVersion,\n  serverUrl: "
+  : get:
+      tags:
+      - upstream
+      summary: "GET /api/;\n\nconst { appId, token, functionsVersion } = appParams;\n\
+        \n//Create a client with authentication required\nexport const base44 = createClient({\n\
+        \  appId,\n  token,\n  functionsVersion,\n  serverUrl:  (from wrapper)"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+      required:
+      - error
+    FavoriteMeal:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the meal
+        meal_type:
+          type: string
+          enum: &id061
+          - breakfast
+          - lunch
+          - dinner
+          - snacks
+          description: Type of meal
+        calories:
+          type: string
+          description: Calorie information
+        protein:
+          type: number
+          description: Protein in grams
+        carbs:
+          type: number
+          description: Carbs in grams
+        fat:
+          type: number
+          description: Fat in grams
+        nutrients:
+          type: string
+          description: Nutrient information
+        prepTip:
+          type: string
+          description: Preparation tips
+        prepTime:
+          type: string
+          description: Preparation time
+        prepSteps:
+          type: array
+          items: &id062
+            type: string
+          description: Step-by-step preparation
+        difficulty:
+          type: string
+          description: Cooking difficulty
+        equipment:
+          type: array
+          items: &id063
+            type: string
+          description: Required equipment
+        healthBenefit:
+          type: string
+          description: Health benefits
+        imageUrl:
+          type: string
+          description: Meal image URL
+        cuisine:
+          type: string
+          description: Cuisine type
+        cooking_time:
+          type: string
+          description: Estimated cooking time
+        tags:
+          type: array
+          items: &id064
+            type: string
+          description: Tags for categorization
+        source_type:
+          type: string
+          enum: &id065
+          - meal_plan
+          - ai_recipe
+          - shared_recipe
+          - manual
+          description: Where this favorite came from
+        source_meal_plan_id:
+          type: string
+          description: ID of the meal plan this came from
+        source_meal_plan_name:
+          type: string
+          description: Name of the meal plan
+        source_recipe_id:
+          type: string
+          description: ID of the recipe if from AI or shared
+        ingredients:
+          type: array
+          items: &id066
+            type: string
+          description: List of ingredients
+        grocery_list:
+          type: object
+          additionalProperties: true
+          description: Categorized grocery items with estimated costs
+        estimated_cost:
+          type: number
+          description: Estimated total cost
+      required:
+      - name
+      - meal_type
+    FavoriteMealCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the meal
+        meal_type:
+          type: string
+          enum: *id061
+          description: Type of meal
+        calories:
+          type: string
+          description: Calorie information
+        protein:
+          type: number
+          description: Protein in grams
+        carbs:
+          type: number
+          description: Carbs in grams
+        fat:
+          type: number
+          description: Fat in grams
+        nutrients:
+          type: string
+          description: Nutrient information
+        prepTip:
+          type: string
+          description: Preparation tips
+        prepTime:
+          type: string
+          description: Preparation time
+        prepSteps:
+          type: array
+          items: *id062
+          description: Step-by-step preparation
+        difficulty:
+          type: string
+          description: Cooking difficulty
+        equipment:
+          type: array
+          items: *id063
+          description: Required equipment
+        healthBenefit:
+          type: string
+          description: Health benefits
+        imageUrl:
+          type: string
+          description: Meal image URL
+        cuisine:
+          type: string
+          description: Cuisine type
+        cooking_time:
+          type: string
+          description: Estimated cooking time
+        tags:
+          type: array
+          items: *id064
+          description: Tags for categorization
+        source_type:
+          type: string
+          enum: *id065
+          description: Where this favorite came from
+        source_meal_plan_id:
+          type: string
+          description: ID of the meal plan this came from
+        source_meal_plan_name:
+          type: string
+          description: Name of the meal plan
+        source_recipe_id:
+          type: string
+          description: ID of the recipe if from AI or shared
+        ingredients:
+          type: array
+          items: *id066
+          description: List of ingredients
+        grocery_list:
+          type: object
+          additionalProperties: true
+          description: Categorized grocery items with estimated costs
+        estimated_cost:
+          type: number
+          description: Estimated total cost
+      required:
+      - name
+      - meal_type
+    FavoriteMealUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the meal
+        meal_type:
+          type: string
+          enum: *id061
+          description: Type of meal
+        calories:
+          type: string
+          description: Calorie information
+        protein:
+          type: number
+          description: Protein in grams
+        carbs:
+          type: number
+          description: Carbs in grams
+        fat:
+          type: number
+          description: Fat in grams
+        nutrients:
+          type: string
+          description: Nutrient information
+        prepTip:
+          type: string
+          description: Preparation tips
+        prepTime:
+          type: string
+          description: Preparation time
+        prepSteps:
+          type: array
+          items: *id062
+          description: Step-by-step preparation
+        difficulty:
+          type: string
+          description: Cooking difficulty
+        equipment:
+          type: array
+          items: *id063
+          description: Required equipment
+        healthBenefit:
+          type: string
+          description: Health benefits
+        imageUrl:
+          type: string
+          description: Meal image URL
+        cuisine:
+          type: string
+          description: Cuisine type
+        cooking_time:
+          type: string
+          description: Estimated cooking time
+        tags:
+          type: array
+          items: *id064
+          description: Tags for categorization
+        source_type:
+          type: string
+          enum: *id065
+          description: Where this favorite came from
+        source_meal_plan_id:
+          type: string
+          description: ID of the meal plan this came from
+        source_meal_plan_name:
+          type: string
+          description: Name of the meal plan
+        source_recipe_id:
+          type: string
+          description: ID of the recipe if from AI or shared
+        ingredients:
+          type: array
+          items: *id066
+          description: List of ingredients
+        grocery_list:
+          type: object
+          additionalProperties: true
+          description: Categorized grocery items with estimated costs
+        estimated_cost:
+          type: number
+          description: Estimated total cost
+    Feedback:
+      type: object
+      properties:
+        user_name:
+          type: string
+          description: Name of the user providing feedback
+        user_email:
+          type: string
+          description: Email of the user
+        page:
+          type: string
+          description: Page where feedback was submitted
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          description: Rating from 1 to 5 stars
+        feedback_type:
+          type: string
+          enum: &id067
+          - bug
+          - feature_request
+          - general
+          - praise
+          description: Type of feedback
+        message:
+          type: string
+          description: Feedback message
+        status:
+          type: string
+          enum: &id068
+          - new
+          - reviewed
+          - resolved
+          description: Status of the feedback
+      required:
+      - feedback_type
+      - message
+    FeedbackCreate:
+      type: object
+      properties:
+        user_name:
+          type: string
+          description: Name of the user providing feedback
+        user_email:
+          type: string
+          description: Email of the user
+        page:
+          type: string
+          description: Page where feedback was submitted
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          description: Rating from 1 to 5 stars
+        feedback_type:
+          type: string
+          enum: *id067
+          description: Type of feedback
+        message:
+          type: string
+          description: Feedback message
+        status:
+          type: string
+          enum: *id068
+          description: Status of the feedback
+      required:
+      - feedback_type
+      - message
+    FeedbackUpdate:
+      type: object
+      properties:
+        user_name:
+          type: string
+          description: Name of the user providing feedback
+        user_email:
+          type: string
+          description: Email of the user
+        page:
+          type: string
+          description: Page where feedback was submitted
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          description: Rating from 1 to 5 stars
+        feedback_type:
+          type: string
+          enum: *id067
+          description: Type of feedback
+        message:
+          type: string
+          description: Feedback message
+        status:
+          type: string
+          enum: *id068
+          description: Status of the feedback
+    ForumComment:
+      type: object
+      properties:
+        post_id:
+          type: string
+          description: ID of the forum post
+        content:
+          type: string
+          description: Comment text
+        likes_count:
+          type: number
+          description: Number of likes
+        author_name:
+          type: string
+          description: Name of the author
+        reactions:
+          type: object
+          additionalProperties: &id069
+            type: array
+            items:
+              type: string
+          description: Emoji reactions with counts
+      required:
+      - post_id
+      - content
+    ForumCommentCreate:
+      type: object
+      properties:
+        post_id:
+          type: string
+          description: ID of the forum post
+        content:
+          type: string
+          description: Comment text
+        likes_count:
+          type: number
+          description: Number of likes
+        author_name:
+          type: string
+          description: Name of the author
+        reactions:
+          type: object
+          additionalProperties: *id069
+          description: Emoji reactions with counts
+      required:
+      - post_id
+      - content
+    ForumCommentUpdate:
+      type: object
+      properties:
+        post_id:
+          type: string
+          description: ID of the forum post
+        content:
+          type: string
+          description: Comment text
+        likes_count:
+          type: number
+          description: Number of likes
+        author_name:
+          type: string
+          description: Name of the author
+        reactions:
+          type: object
+          additionalProperties: *id069
+          description: Emoji reactions with counts
+    ForumPost:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Post title
+        content:
+          type: string
+          description: Post content
+        category:
+          type: string
+          enum: &id070
+          - general
+          - recipes
+          - nutrition
+          - meal_prep
+          - tips
+          - questions
+          description: Post category
+        tags:
+          type: array
+          items: &id071
+            type: string
+          description: Post tags
+        likes_count:
+          type: number
+          description: Number of likes
+        views_count:
+          type: number
+          description: Number of views
+        comments_count:
+          type: number
+          description: Number of comments
+        is_pinned:
+          type: boolean
+          description: Whether post is pinned
+        author_name:
+          type: string
+          description: Name of the author
+      required:
+      - title
+      - content
+      - category
+    ForumPostCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Post title
+        content:
+          type: string
+          description: Post content
+        category:
+          type: string
+          enum: *id070
+          description: Post category
+        tags:
+          type: array
+          items: *id071
+          description: Post tags
+        likes_count:
+          type: number
+          description: Number of likes
+        views_count:
+          type: number
+          description: Number of views
+        comments_count:
+          type: number
+          description: Number of comments
+        is_pinned:
+          type: boolean
+          description: Whether post is pinned
+        author_name:
+          type: string
+          description: Name of the author
+      required:
+      - title
+      - content
+      - category
+    ForumPostUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Post title
+        content:
+          type: string
+          description: Post content
+        category:
+          type: string
+          enum: *id070
+          description: Post category
+        tags:
+          type: array
+          items: *id071
+          description: Post tags
+        likes_count:
+          type: number
+          description: Number of likes
+        views_count:
+          type: number
+          description: Number of views
+        comments_count:
+          type: number
+          description: Number of comments
+        is_pinned:
+          type: boolean
+          description: Whether post is pinned
+        author_name:
+          type: string
+          description: Name of the author
+    GroceryList:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the grocery list
+        items:
+          type: object
+          additionalProperties: true
+          description: Categorized grocery items with prices and quantities
+        total_cost:
+          type: number
+          description: Total cost of all items
+        notes:
+          type: string
+          description: Additional notes for the list
+      required:
+      - name
+    GroceryListCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the grocery list
+        items:
+          type: object
+          additionalProperties: true
+          description: Categorized grocery items with prices and quantities
+        total_cost:
+          type: number
+          description: Total cost of all items
+        notes:
+          type: string
+          description: Additional notes for the list
+      required:
+      - name
+    GroceryListUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the grocery list
+        items:
+          type: object
+          additionalProperties: true
+          description: Categorized grocery items with prices and quantities
+        total_cost:
+          type: number
+          description: Total cost of all items
+        notes:
+          type: string
+          description: Additional notes for the list
+    LabResult:
+      type: object
+      properties:
+        upload_date:
+          type: string
+          format: date
+          description: Date of lab test
+        file_url:
+          type: string
+          description: URL to uploaded PDF file
+        biomarkers:
+          type: object
+          properties: &id072
+            ALT:
+              type: object
+              properties:
+                value:
+                  type: number
+                unit:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - normal
+                  - high
+                  - low
+            AST:
+              type: object
+              properties:
+                value:
+                  type: number
+                unit:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - normal
+                  - high
+                  - low
+            Glucose:
+              type: object
+              properties:
+                value:
+                  type: number
+                unit:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - normal
+                  - high
+                  - low
+            Sodium:
+              type: object
+              properties:
+                value:
+                  type: number
+                unit:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - normal
+                  - high
+                  - low
+            Potassium:
+              type: object
+              properties:
+                value:
+                  type: number
+                unit:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - normal
+                  - high
+                  - low
+            eGFR:
+              type: object
+              properties:
+                value:
+                  type: number
+                unit:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - normal
+                  - high
+                  - low
+            BUN:
+              type: object
+              properties:
+                value:
+                  type: number
+                unit:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - normal
+                  - high
+                  - low
+            Creatinine:
+              type: object
+              properties:
+                value:
+                  type: number
+                unit:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                  - normal
+                  - high
+                  - low
+          additionalProperties: true
+          description: Extracted biomarker values
+        notes:
+          type: string
+          description: Additional notes about the lab result
+      required:
+      - upload_date
+    LabResultCreate:
+      type: object
+      properties:
+        upload_date:
+          type: string
+          format: date
+          description: Date of lab test
+        file_url:
+          type: string
+          description: URL to uploaded PDF file
+        biomarkers:
+          type: object
+          properties: *id072
+          additionalProperties: true
+          description: Extracted biomarker values
+        notes:
+          type: string
+          description: Additional notes about the lab result
+      required:
+      - upload_date
+    LabResultUpdate:
+      type: object
+      properties:
+        upload_date:
+          type: string
+          format: date
+          description: Date of lab test
+        file_url:
+          type: string
+          description: URL to uploaded PDF file
+        biomarkers:
+          type: object
+          properties: *id072
+          additionalProperties: true
+          description: Extracted biomarker values
+        notes:
+          type: string
+          description: Additional notes about the lab result
+    MealPlan:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the meal plan
+        diet_type:
+          type: string
+          enum: &id073
+          - liver-centric
+          - low-sugar
+          - vegetarian
+          - custom
+          description: Type of diet
+        cultural_style:
+          type: string
+          enum: &id074
+          - mediterranean
+          - asian
+          - indian
+          - latin_american
+          - african
+          - middle_eastern
+          - european
+          - fusion
+          - none
+          description: Cultural cuisine style
+        life_stage:
+          type: string
+          enum: &id075
+          - general
+          - children
+          - pregnancy
+          - seniors
+          description: Life stage or age group
+        days:
+          type: array
+          items: &id076
+            type: object
+            properties:
+              day:
+                type: string
+              breakfast:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  calories:
+                    type: string
+                  protein:
+                    type: number
+                  carbs:
+                    type: number
+                  fat:
+                    type: number
+                  nutrients:
+                    type: string
+                  prepTip:
+                    type: string
+                  prepSteps:
+                    type: array
+                    items:
+                      type: string
+                  prepTime:
+                    type: string
+                  difficulty:
+                    type: string
+                  equipment:
+                    type: array
+                    items:
+                      type: string
+                  healthBenefit:
+                    type: string
+                  imageUrl:
+                    type: string
+              lunch:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  calories:
+                    type: string
+                  protein:
+                    type: number
+                  carbs:
+                    type: number
+                  fat:
+                    type: number
+                  nutrients:
+                    type: string
+                  prepTip:
+                    type: string
+                  prepSteps:
+                    type: array
+                    items:
+                      type: string
+                  prepTime:
+                    type: string
+                  difficulty:
+                    type: string
+                  equipment:
+                    type: array
+                    items:
+                      type: string
+                  healthBenefit:
+                    type: string
+                  imageUrl:
+                    type: string
+              dinner:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  calories:
+                    type: string
+                  protein:
+                    type: number
+                  carbs:
+                    type: number
+                  fat:
+                    type: number
+                  nutrients:
+                    type: string
+                  prepTip:
+                    type: string
+                  prepSteps:
+                    type: array
+                    items:
+                      type: string
+                  prepTime:
+                    type: string
+                  difficulty:
+                    type: string
+                  equipment:
+                    type: array
+                    items:
+                      type: string
+                  healthBenefit:
+                    type: string
+                  imageUrl:
+                    type: string
+              snacks:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  calories:
+                    type: string
+                  protein:
+                    type: number
+                  carbs:
+                    type: number
+                  fat:
+                    type: number
+                  nutrients:
+                    type: string
+                  prepTip:
+                    type: string
+                  prepSteps:
+                    type: array
+                    items:
+                      type: string
+                  prepTime:
+                    type: string
+                  difficulty:
+                    type: string
+                  equipment:
+                    type: array
+                    items:
+                      type: string
+                  healthBenefit:
+                    type: string
+                  imageUrl:
+                    type: string
+          description: Array of daily meal plans
+        preferences:
+          type: object
+          properties: &id077
+            foods_liked:
+              type: string
+            foods_avoided:
+              type: string
+            dietary_notes:
+              type: string
+            num_people:
+              type: number
+            weekly_budget:
+              type: number
+            allergens:
+              type: array
+              items:
+                type: string
+          additionalProperties: true
+          description: User preferences for the meal plan
+        macros:
+          type: object
+          properties: &id078
+            protein:
+              type: number
+            carbs:
+              type: number
+            fat:
+              type: number
+          additionalProperties: true
+          description: Average daily macronutrient breakdown
+        estimated_cost:
+          type: number
+          description: Initial estimated weekly cost in dollars
+        grocery_list:
+          type: object
+          additionalProperties: true
+          description: Categorized grocery items with prices
+        current_total_cost:
+          type: number
+          description: Current calculated total from grocery prices
+        hero_image_url:
+          type: string
+          description: Hero image for the meal plan
+      required:
+      - name
+      - diet_type
+      - days
+    MealPlanCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the meal plan
+        diet_type:
+          type: string
+          enum: *id073
+          description: Type of diet
+        cultural_style:
+          type: string
+          enum: *id074
+          description: Cultural cuisine style
+        life_stage:
+          type: string
+          enum: *id075
+          description: Life stage or age group
+        days:
+          type: array
+          items: *id076
+          description: Array of daily meal plans
+        preferences:
+          type: object
+          properties: *id077
+          additionalProperties: true
+          description: User preferences for the meal plan
+        macros:
+          type: object
+          properties: *id078
+          additionalProperties: true
+          description: Average daily macronutrient breakdown
+        estimated_cost:
+          type: number
+          description: Initial estimated weekly cost in dollars
+        grocery_list:
+          type: object
+          additionalProperties: true
+          description: Categorized grocery items with prices
+        current_total_cost:
+          type: number
+          description: Current calculated total from grocery prices
+        hero_image_url:
+          type: string
+          description: Hero image for the meal plan
+      required:
+      - name
+      - diet_type
+      - days
+    MealPlanUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the meal plan
+        diet_type:
+          type: string
+          enum: *id073
+          description: Type of diet
+        cultural_style:
+          type: string
+          enum: *id074
+          description: Cultural cuisine style
+        life_stage:
+          type: string
+          enum: *id075
+          description: Life stage or age group
+        days:
+          type: array
+          items: *id076
+          description: Array of daily meal plans
+        preferences:
+          type: object
+          properties: *id077
+          additionalProperties: true
+          description: User preferences for the meal plan
+        macros:
+          type: object
+          properties: *id078
+          additionalProperties: true
+          description: Average daily macronutrient breakdown
+        estimated_cost:
+          type: number
+          description: Initial estimated weekly cost in dollars
+        grocery_list:
+          type: object
+          additionalProperties: true
+          description: Categorized grocery items with prices
+        current_total_cost:
+          type: number
+          description: Current calculated total from grocery prices
+        hero_image_url:
+          type: string
+          description: Hero image for the meal plan
+    Notification:
+      type: object
+      properties:
+        recipient_email:
+          type: string
+          description: Email of the notification recipient
+        type:
+          type: string
+          enum: &id079
+          - new_follower
+          - plan_comment
+          - recipe_comment
+          - plan_like
+          - recipe_like
+          - forum_reply
+          description: Type of notification
+        title:
+          type: string
+          description: Notification title
+        message:
+          type: string
+          description: Notification message
+        link:
+          type: string
+          description: Link to the related content
+        is_read:
+          type: boolean
+          description: Whether notification has been read
+        actor_name:
+          type: string
+          description: Name of the person who triggered the notification
+      required:
+      - recipient_email
+      - type
+      - title
+      - message
+    NotificationCreate:
+      type: object
+      properties:
+        recipient_email:
+          type: string
+          description: Email of the notification recipient
+        type:
+          type: string
+          enum: *id079
+          description: Type of notification
+        title:
+          type: string
+          description: Notification title
+        message:
+          type: string
+          description: Notification message
+        link:
+          type: string
+          description: Link to the related content
+        is_read:
+          type: boolean
+          description: Whether notification has been read
+        actor_name:
+          type: string
+          description: Name of the person who triggered the notification
+      required:
+      - recipient_email
+      - type
+      - title
+      - message
+    NotificationUpdate:
+      type: object
+      properties:
+        recipient_email:
+          type: string
+          description: Email of the notification recipient
+        type:
+          type: string
+          enum: *id079
+          description: Type of notification
+        title:
+          type: string
+          description: Notification title
+        message:
+          type: string
+          description: Notification message
+        link:
+          type: string
+          description: Link to the related content
+        is_read:
+          type: boolean
+          description: Whether notification has been read
+        actor_name:
+          type: string
+          description: Name of the person who triggered the notification
+    NutritionGoal:
+      type: object
+      properties:
+        goal_type:
+          type: string
+          enum: &id080
+          - daily
+          - weekly
+          description: Type of goal period
+        target_calories:
+          type: number
+          description: Target calorie intake
+        target_protein:
+          type: number
+          description: Target protein in grams
+        target_carbs:
+          type: number
+          description: Target carbs in grams
+        target_fat:
+          type: number
+          description: Target fat in grams
+        target_micronutrients:
+          type: object
+          additionalProperties: &id081
+            type: object
+            properties:
+              value:
+                type: number
+              unit:
+                type: string
+          description: Target micronutrient values (vitamin/mineral name as key, amount
+            as value)
+        is_active:
+          type: boolean
+          description: Whether this goal is currently active
+      required:
+      - goal_type
+    NutritionGoalCreate:
+      type: object
+      properties:
+        goal_type:
+          type: string
+          enum: *id080
+          description: Type of goal period
+        target_calories:
+          type: number
+          description: Target calorie intake
+        target_protein:
+          type: number
+          description: Target protein in grams
+        target_carbs:
+          type: number
+          description: Target carbs in grams
+        target_fat:
+          type: number
+          description: Target fat in grams
+        target_micronutrients:
+          type: object
+          additionalProperties: *id081
+          description: Target micronutrient values (vitamin/mineral name as key, amount
+            as value)
+        is_active:
+          type: boolean
+          description: Whether this goal is currently active
+      required:
+      - goal_type
+    NutritionGoalUpdate:
+      type: object
+      properties:
+        goal_type:
+          type: string
+          enum: *id080
+          description: Type of goal period
+        target_calories:
+          type: number
+          description: Target calorie intake
+        target_protein:
+          type: number
+          description: Target protein in grams
+        target_carbs:
+          type: number
+          description: Target carbs in grams
+        target_fat:
+          type: number
+          description: Target fat in grams
+        target_micronutrients:
+          type: object
+          additionalProperties: *id081
+          description: Target micronutrient values (vitamin/mineral name as key, amount
+            as value)
+        is_active:
+          type: boolean
+          description: Whether this goal is currently active
+    NutritionLog:
+      type: object
+      properties:
+        recipe_name:
+          type: string
+          description: Name of the recipe consumed
+        meal_type:
+          type: string
+          enum: &id082
+          - breakfast
+          - lunch
+          - dinner
+          - snack
+          description: Type of meal
+        log_date:
+          type: string
+          format: date
+          description: Date of consumption
+        calories:
+          type: number
+          description: Calories consumed
+        protein:
+          type: number
+          description: Protein in grams
+        carbs:
+          type: number
+          description: Carbs in grams
+        fat:
+          type: number
+          description: Fat in grams
+        micronutrients:
+          type: object
+          additionalProperties: &id083
+            type: object
+            properties:
+              value:
+                type: number
+              unit:
+                type: string
+          description: Micronutrient values (vitamin/mineral name as key, object with
+            value and unit)
+        servings:
+          type: number
+          description: Number of servings consumed
+        food_source:
+          type: string
+          enum: &id084
+          - manual
+          - usda
+          - open_food_facts
+          description: Source of nutritional data
+        food_id:
+          type: string
+          description: External food database ID if from USDA or Open Food Facts
+      required:
+      - recipe_name
+      - log_date
+      - calories
+    NutritionLogCreate:
+      type: object
+      properties:
+        recipe_name:
+          type: string
+          description: Name of the recipe consumed
+        meal_type:
+          type: string
+          enum: *id082
+          description: Type of meal
+        log_date:
+          type: string
+          format: date
+          description: Date of consumption
+        calories:
+          type: number
+          description: Calories consumed
+        protein:
+          type: number
+          description: Protein in grams
+        carbs:
+          type: number
+          description: Carbs in grams
+        fat:
+          type: number
+          description: Fat in grams
+        micronutrients:
+          type: object
+          additionalProperties: *id083
+          description: Micronutrient values (vitamin/mineral name as key, object with
+            value and unit)
+        servings:
+          type: number
+          description: Number of servings consumed
+        food_source:
+          type: string
+          enum: *id084
+          description: Source of nutritional data
+        food_id:
+          type: string
+          description: External food database ID if from USDA or Open Food Facts
+      required:
+      - recipe_name
+      - log_date
+      - calories
+    NutritionLogUpdate:
+      type: object
+      properties:
+        recipe_name:
+          type: string
+          description: Name of the recipe consumed
+        meal_type:
+          type: string
+          enum: *id082
+          description: Type of meal
+        log_date:
+          type: string
+          format: date
+          description: Date of consumption
+        calories:
+          type: number
+          description: Calories consumed
+        protein:
+          type: number
+          description: Protein in grams
+        carbs:
+          type: number
+          description: Carbs in grams
+        fat:
+          type: number
+          description: Fat in grams
+        micronutrients:
+          type: object
+          additionalProperties: *id083
+          description: Micronutrient values (vitamin/mineral name as key, object with
+            value and unit)
+        servings:
+          type: number
+          description: Number of servings consumed
+        food_source:
+          type: string
+          enum: *id084
+          description: Source of nutritional data
+        food_id:
+          type: string
+          description: External food database ID if from USDA or Open Food Facts
+    ProgressComment:
+      type: object
+      properties:
+        progress_id:
+          type: string
+          description: ID of the shared progress
+        comment:
+          type: string
+          description: Comment text
+        author_name:
+          type: string
+          description: Name of the commenter
+      required:
+      - progress_id
+      - comment
+    ProgressCommentCreate:
+      type: object
+      properties:
+        progress_id:
+          type: string
+          description: ID of the shared progress
+        comment:
+          type: string
+          description: Comment text
+        author_name:
+          type: string
+          description: Name of the commenter
+      required:
+      - progress_id
+      - comment
+    ProgressCommentUpdate:
+      type: object
+      properties:
+        progress_id:
+          type: string
+          description: ID of the shared progress
+        comment:
+          type: string
+          description: Comment text
+        author_name:
+          type: string
+          description: Name of the commenter
+    RecipeComment:
+      type: object
+      properties:
+        recipe_id:
+          type: string
+          description: ID of the shared recipe
+        comment:
+          type: string
+          description: Comment text
+        author_name:
+          type: string
+          description: Name of the commenter
+      required:
+      - recipe_id
+      - comment
+    RecipeCommentCreate:
+      type: object
+      properties:
+        recipe_id:
+          type: string
+          description: ID of the shared recipe
+        comment:
+          type: string
+          description: Comment text
+        author_name:
+          type: string
+          description: Name of the commenter
+      required:
+      - recipe_id
+      - comment
+    RecipeCommentUpdate:
+      type: object
+      properties:
+        recipe_id:
+          type: string
+          description: ID of the shared recipe
+        comment:
+          type: string
+          description: Comment text
+        author_name:
+          type: string
+          description: Name of the commenter
+    Review:
+      type: object
+      properties:
+        target_id:
+          type: string
+          description: ID of the meal plan or recipe being reviewed
+        target_type:
+          type: string
+          enum: &id085
+          - meal_plan
+          - shared_plan
+          description: Type of item being reviewed
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          description: Rating from 1 to 5 stars
+        comment:
+          type: string
+          description: Review comment
+        helpful_count:
+          type: number
+          description: Number of helpful votes
+        author_name:
+          type: string
+          description: Name of the reviewer
+      required:
+      - target_id
+      - target_type
+      - rating
+    ReviewCreate:
+      type: object
+      properties:
+        target_id:
+          type: string
+          description: ID of the meal plan or recipe being reviewed
+        target_type:
+          type: string
+          enum: *id085
+          description: Type of item being reviewed
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          description: Rating from 1 to 5 stars
+        comment:
+          type: string
+          description: Review comment
+        helpful_count:
+          type: number
+          description: Number of helpful votes
+        author_name:
+          type: string
+          description: Name of the reviewer
+      required:
+      - target_id
+      - target_type
+      - rating
+    ReviewUpdate:
+      type: object
+      properties:
+        target_id:
+          type: string
+          description: ID of the meal plan or recipe being reviewed
+        target_type:
+          type: string
+          enum: *id085
+          description: Type of item being reviewed
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          description: Rating from 1 to 5 stars
+        comment:
+          type: string
+          description: Review comment
+        helpful_count:
+          type: number
+          description: Number of helpful votes
+        author_name:
+          type: string
+          description: Name of the reviewer
+    SharedMealPlan:
+      type: object
+      properties:
+        original_plan_id:
+          type: string
+          description: Reference to the original MealPlan
+        title:
+          type: string
+          description: Title of the shared meal plan
+        description:
+          type: string
+          description: Description of the meal plan
+        plan_data:
+          type: object
+          additionalProperties: true
+          description: Complete meal plan data
+        diet_type:
+          type: string
+          description: Type of diet
+        cultural_style:
+          type: string
+          description: Cultural cuisine style
+        tags:
+          type: array
+          items: &id086
+            type: string
+          description: Tags for discovery
+        views_count:
+          type: number
+          description: Number of views
+        likes_count:
+          type: number
+          description: Number of likes
+        saves_count:
+          type: number
+          description: Number of times saved
+        average_rating:
+          type: number
+          description: Average rating
+        author_name:
+          type: string
+          description: Name of the person who shared it
+      required:
+      - title
+      - plan_data
+    SharedMealPlanCreate:
+      type: object
+      properties:
+        original_plan_id:
+          type: string
+          description: Reference to the original MealPlan
+        title:
+          type: string
+          description: Title of the shared meal plan
+        description:
+          type: string
+          description: Description of the meal plan
+        plan_data:
+          type: object
+          additionalProperties: true
+          description: Complete meal plan data
+        diet_type:
+          type: string
+          description: Type of diet
+        cultural_style:
+          type: string
+          description: Cultural cuisine style
+        tags:
+          type: array
+          items: *id086
+          description: Tags for discovery
+        views_count:
+          type: number
+          description: Number of views
+        likes_count:
+          type: number
+          description: Number of likes
+        saves_count:
+          type: number
+          description: Number of times saved
+        average_rating:
+          type: number
+          description: Average rating
+        author_name:
+          type: string
+          description: Name of the person who shared it
+      required:
+      - title
+      - plan_data
+    SharedMealPlanUpdate:
+      type: object
+      properties:
+        original_plan_id:
+          type: string
+          description: Reference to the original MealPlan
+        title:
+          type: string
+          description: Title of the shared meal plan
+        description:
+          type: string
+          description: Description of the meal plan
+        plan_data:
+          type: object
+          additionalProperties: true
+          description: Complete meal plan data
+        diet_type:
+          type: string
+          description: Type of diet
+        cultural_style:
+          type: string
+          description: Cultural cuisine style
+        tags:
+          type: array
+          items: *id086
+          description: Tags for discovery
+        views_count:
+          type: number
+          description: Number of views
+        likes_count:
+          type: number
+          description: Number of likes
+        saves_count:
+          type: number
+          description: Number of times saved
+        average_rating:
+          type: number
+          description: Average rating
+        author_name:
+          type: string
+          description: Name of the person who shared it
+    SharedProgress:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the shared progress post
+        description:
+          type: string
+          description: Description of the achievement
+        progress_type:
+          type: string
+          enum: &id087
+          - streak
+          - goal_reached
+          - milestone
+          - weekly_summary
+          description: Type of progress being shared
+        stats:
+          type: object
+          properties: &id088
+            streak_days:
+              type: number
+            calories_logged:
+              type: number
+            meals_tracked:
+              type: number
+            goals_met:
+              type: number
+            avg_protein:
+              type: number
+            avg_calories:
+              type: number
+          additionalProperties: true
+          description: Progress statistics
+        date_range:
+          type: object
+          properties: &id089
+            from:
+              type: string
+              format: date
+            to:
+              type: string
+              format: date
+          additionalProperties: true
+        likes_count:
+          type: number
+          description: Number of likes
+        comments_count:
+          type: number
+          description: Number of comments
+        author_name:
+          type: string
+          description: Name of the person who shared
+      required:
+      - title
+      - progress_type
+    SharedProgressCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the shared progress post
+        description:
+          type: string
+          description: Description of the achievement
+        progress_type:
+          type: string
+          enum: *id087
+          description: Type of progress being shared
+        stats:
+          type: object
+          properties: *id088
+          additionalProperties: true
+          description: Progress statistics
+        date_range:
+          type: object
+          properties: *id089
+          additionalProperties: true
+        likes_count:
+          type: number
+          description: Number of likes
+        comments_count:
+          type: number
+          description: Number of comments
+        author_name:
+          type: string
+          description: Name of the person who shared
+      required:
+      - title
+      - progress_type
+    SharedProgressUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the shared progress post
+        description:
+          type: string
+          description: Description of the achievement
+        progress_type:
+          type: string
+          enum: *id087
+          description: Type of progress being shared
+        stats:
+          type: object
+          properties: *id088
+          additionalProperties: true
+          description: Progress statistics
+        date_range:
+          type: object
+          properties: *id089
+          additionalProperties: true
+        likes_count:
+          type: number
+          description: Number of likes
+        comments_count:
+          type: number
+          description: Number of comments
+        author_name:
+          type: string
+          description: Name of the person who shared
+    SharedRecipe:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Recipe name
+        meal_type:
+          type: string
+          enum: &id090
+          - breakfast
+          - lunch
+          - dinner
+          - snacks
+          description: Type of meal
+        description:
+          type: string
+          description: Recipe description
+        meal_data:
+          type: object
+          additionalProperties: true
+          description: Complete meal/recipe data
+        calories:
+          type: string
+          description: Calorie information
+        protein:
+          type: number
+          description: Protein in grams
+        carbs:
+          type: number
+          description: Carbs in grams
+        fat:
+          type: number
+          description: Fat in grams
+        image_url:
+          type: string
+          description: Recipe image URL
+        tags:
+          type: array
+          items: &id091
+            type: string
+          description: Tags for discovery
+        views_count:
+          type: number
+          description: Number of views
+        likes_count:
+          type: number
+          description: Number of likes
+        saves_count:
+          type: number
+          description: Number of times saved
+        average_rating:
+          type: number
+          description: Average rating
+        author_name:
+          type: string
+          description: Name of the person who shared it
+        status:
+          type: string
+          enum: &id092
+          - pending
+          - approved
+          - rejected
+          description: Moderation status
+        moderation_notes:
+          type: string
+          description: Admin notes on moderation decision
+        cuisine:
+          type: string
+          description: Cuisine type
+        difficulty:
+          type: string
+          enum: &id093
+          - Easy
+          - Medium
+          - Hard
+          description: Difficulty level
+        prep_time:
+          type: string
+          description: Preparation time
+        cooking_time:
+          type: string
+          description: Cooking time
+        servings:
+          type: number
+          description: Number of servings
+        ingredients:
+          type: array
+          items: &id094
+            type: string
+          description: List of ingredients
+        prep_steps:
+          type: array
+          items: &id095
+            type: string
+          description: Step-by-step preparation instructions
+      required:
+      - name
+      - meal_type
+      - meal_data
+    SharedRecipeCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Recipe name
+        meal_type:
+          type: string
+          enum: *id090
+          description: Type of meal
+        description:
+          type: string
+          description: Recipe description
+        meal_data:
+          type: object
+          additionalProperties: true
+          description: Complete meal/recipe data
+        calories:
+          type: string
+          description: Calorie information
+        protein:
+          type: number
+          description: Protein in grams
+        carbs:
+          type: number
+          description: Carbs in grams
+        fat:
+          type: number
+          description: Fat in grams
+        image_url:
+          type: string
+          description: Recipe image URL
+        tags:
+          type: array
+          items: *id091
+          description: Tags for discovery
+        views_count:
+          type: number
+          description: Number of views
+        likes_count:
+          type: number
+          description: Number of likes
+        saves_count:
+          type: number
+          description: Number of times saved
+        average_rating:
+          type: number
+          description: Average rating
+        author_name:
+          type: string
+          description: Name of the person who shared it
+        status:
+          type: string
+          enum: *id092
+          description: Moderation status
+        moderation_notes:
+          type: string
+          description: Admin notes on moderation decision
+        cuisine:
+          type: string
+          description: Cuisine type
+        difficulty:
+          type: string
+          enum: *id093
+          description: Difficulty level
+        prep_time:
+          type: string
+          description: Preparation time
+        cooking_time:
+          type: string
+          description: Cooking time
+        servings:
+          type: number
+          description: Number of servings
+        ingredients:
+          type: array
+          items: *id094
+          description: List of ingredients
+        prep_steps:
+          type: array
+          items: *id095
+          description: Step-by-step preparation instructions
+      required:
+      - name
+      - meal_type
+      - meal_data
+    SharedRecipeUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Recipe name
+        meal_type:
+          type: string
+          enum: *id090
+          description: Type of meal
+        description:
+          type: string
+          description: Recipe description
+        meal_data:
+          type: object
+          additionalProperties: true
+          description: Complete meal/recipe data
+        calories:
+          type: string
+          description: Calorie information
+        protein:
+          type: number
+          description: Protein in grams
+        carbs:
+          type: number
+          description: Carbs in grams
+        fat:
+          type: number
+          description: Fat in grams
+        image_url:
+          type: string
+          description: Recipe image URL
+        tags:
+          type: array
+          items: *id091
+          description: Tags for discovery
+        views_count:
+          type: number
+          description: Number of views
+        likes_count:
+          type: number
+          description: Number of likes
+        saves_count:
+          type: number
+          description: Number of times saved
+        average_rating:
+          type: number
+          description: Average rating
+        author_name:
+          type: string
+          description: Name of the person who shared it
+        status:
+          type: string
+          enum: *id092
+          description: Moderation status
+        moderation_notes:
+          type: string
+          description: Admin notes on moderation decision
+        cuisine:
+          type: string
+          description: Cuisine type
+        difficulty:
+          type: string
+          enum: *id093
+          description: Difficulty level
+        prep_time:
+          type: string
+          description: Preparation time
+        cooking_time:
+          type: string
+          description: Cooking time
+        servings:
+          type: number
+          description: Number of servings
+        ingredients:
+          type: array
+          items: *id094
+          description: List of ingredients
+        prep_steps:
+          type: array
+          items: *id095
+          description: Step-by-step preparation instructions
+    UserFollow:
+      type: object
+      properties:
+        following_user_email:
+          type: string
+          description: Email of the user being followed
+        following_user_name:
+          type: string
+          description: Name of the user being followed
+      required:
+      - following_user_email
+    UserFollowCreate:
+      type: object
+      properties:
+        following_user_email:
+          type: string
+          description: Email of the user being followed
+        following_user_name:
+          type: string
+          description: Name of the user being followed
+      required:
+      - following_user_email
+    UserFollowUpdate:
+      type: object
+      properties:
+        following_user_email:
+          type: string
+          description: Email of the user being followed
+        following_user_name:
+          type: string
+          description: Name of the user being followed
+    UserInteraction:
+      type: object
+      properties:
+        target_id:
+          type: string
+          description: ID of the item (post, plan, comment)
+        target_type:
+          type: string
+          enum: &id096
+          - shared_plan
+          - forum_post
+          - forum_comment
+          description: Type of interaction target
+        interaction_type:
+          type: string
+          enum: &id097
+          - like
+          - save
+          - view
+          description: Type of interaction
+      required:
+      - target_id
+      - target_type
+      - interaction_type
+    UserInteractionCreate:
+      type: object
+      properties:
+        target_id:
+          type: string
+          description: ID of the item (post, plan, comment)
+        target_type:
+          type: string
+          enum: *id096
+          description: Type of interaction target
+        interaction_type:
+          type: string
+          enum: *id097
+          description: Type of interaction
+      required:
+      - target_id
+      - target_type
+      - interaction_type
+    UserInteractionUpdate:
+      type: object
+      properties:
+        target_id:
+          type: string
+          description: ID of the item (post, plan, comment)
+        target_type:
+          type: string
+          enum: *id096
+          description: Type of interaction target
+        interaction_type:
+          type: string
+          enum: *id097
+          description: Type of interaction
+    UserPreferences:
+      type: object
+      properties:
+        age:
+          type: number
+          description: User's age
+        gender:
+          type: string
+          enum: &id098
+          - male
+          - female
+          - other
+          description: User's gender
+        height:
+          type: number
+          description: Height in cm
+        weight:
+          type: number
+          description: Weight in kg
+        health_goal:
+          type: string
+          enum: &id099
+          - liver_health
+          - weight_loss
+          - blood_sugar_control
+          - muscle_gain
+          - heart_health
+          - kidney_health
+          - digestive_health
+          - energy_boost
+          - immune_support
+          - anti_inflammatory
+          - bone_health
+          - general_wellness
+          description: Primary health goal
+        dietary_restrictions:
+          type: string
+          description: Any dietary restrictions or allergies
+        foods_liked:
+          type: string
+          description: Foods user prefers
+        foods_avoided:
+          type: string
+          description: Foods to avoid
+        allergens:
+          type: array
+          items: &id100
+            type: string
+          description: List of allergens to avoid
+        cuisine_preferences:
+          type: array
+          items: &id101
+            type: string
+          description: Preferred cuisine types
+        cooking_time:
+          type: string
+          enum: &id102
+          - any
+          - under_15
+          - '15_30'
+          - '30_60'
+          - over_60
+          description: Maximum cooking time per meal
+        skill_level:
+          type: string
+          enum: &id103
+          - beginner
+          - intermediate
+          - advanced
+          description: Cooking skill level
+        num_people:
+          type: number
+          description: Number of people to cook for
+        weekly_budget:
+          type: number
+          description: Weekly grocery budget
+    UserPreferencesCreate:
+      type: object
+      properties:
+        age:
+          type: number
+          description: User's age
+        gender:
+          type: string
+          enum: *id098
+          description: User's gender
+        height:
+          type: number
+          description: Height in cm
+        weight:
+          type: number
+          description: Weight in kg
+        health_goal:
+          type: string
+          enum: *id099
+          description: Primary health goal
+        dietary_restrictions:
+          type: string
+          description: Any dietary restrictions or allergies
+        foods_liked:
+          type: string
+          description: Foods user prefers
+        foods_avoided:
+          type: string
+          description: Foods to avoid
+        allergens:
+          type: array
+          items: *id100
+          description: List of allergens to avoid
+        cuisine_preferences:
+          type: array
+          items: *id101
+          description: Preferred cuisine types
+        cooking_time:
+          type: string
+          enum: *id102
+          description: Maximum cooking time per meal
+        skill_level:
+          type: string
+          enum: *id103
+          description: Cooking skill level
+        num_people:
+          type: number
+          description: Number of people to cook for
+        weekly_budget:
+          type: number
+          description: Weekly grocery budget
+    UserPreferencesUpdate:
+      type: object
+      properties:
+        age:
+          type: number
+          description: User's age
+        gender:
+          type: string
+          enum: *id098
+          description: User's gender
+        height:
+          type: number
+          description: Height in cm
+        weight:
+          type: number
+          description: Weight in kg
+        health_goal:
+          type: string
+          enum: *id099
+          description: Primary health goal
+        dietary_restrictions:
+          type: string
+          description: Any dietary restrictions or allergies
+        foods_liked:
+          type: string
+          description: Foods user prefers
+        foods_avoided:
+          type: string
+          description: Foods to avoid
+        allergens:
+          type: array
+          items: *id100
+          description: List of allergens to avoid
+        cuisine_preferences:
+          type: array
+          items: *id101
+          description: Preferred cuisine types
+        cooking_time:
+          type: string
+          enum: *id102
+          description: Maximum cooking time per meal
+        skill_level:
+          type: string
+          enum: *id103
+          description: Cooking skill level
+        num_people:
+          type: number
+          description: Number of people to cook for
+        weekly_budget:
+          type: number
+          description: Weekly grocery budget
+    UserSettings:
+      type: object
+      properties:
+        email_notifications:
+          type: boolean
+          description: Receive email notifications
+        recipe_approved_notifications:
+          type: boolean
+          description: Notify when recipes are approved
+        recipe_rejected_notifications:
+          type: boolean
+          description: Notify when recipes are rejected
+        new_follower_notifications:
+          type: boolean
+          description: Notify when someone follows you
+        comment_notifications:
+          type: boolean
+          description: Notify when someone comments
+        like_notifications:
+          type: boolean
+          description: Notify when someone likes your content
+        weekly_summary:
+          type: boolean
+          description: Receive weekly nutrition summary
+    UserSettingsCreate:
+      type: object
+      properties:
+        email_notifications:
+          type: boolean
+          description: Receive email notifications
+        recipe_approved_notifications:
+          type: boolean
+          description: Notify when recipes are approved
+        recipe_rejected_notifications:
+          type: boolean
+          description: Notify when recipes are rejected
+        new_follower_notifications:
+          type: boolean
+          description: Notify when someone follows you
+        comment_notifications:
+          type: boolean
+          description: Notify when someone comments
+        like_notifications:
+          type: boolean
+          description: Notify when someone likes your content
+        weekly_summary:
+          type: boolean
+          description: Receive weekly nutrition summary
+    UserSettingsUpdate:
+      type: object
+      properties:
+        email_notifications:
+          type: boolean
+          description: Receive email notifications
+        recipe_approved_notifications:
+          type: boolean
+          description: Notify when recipes are approved
+        recipe_rejected_notifications:
+          type: boolean
+          description: Notify when recipes are rejected
+        new_follower_notifications:
+          type: boolean
+          description: Notify when someone follows you
+        comment_notifications:
+          type: boolean
+          description: Notify when someone comments
+        like_notifications:
+          type: boolean
+          description: Notify when someone likes your content
+        weekly_summary:
+          type: boolean
+          description: Receive weekly nutrition summary
